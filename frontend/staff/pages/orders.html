@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+    <title>Orders — ShopFlow</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+    
+    <link rel="stylesheet" href="css/orders.css" />
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="#" class="brand"><span class="dot"></span>ShopFlow</a>
+                <button class="close-sidebar" id="closeSidebar">×</button>
+            </div>
+            <div class="staff-info" id="staffInfo">
+                <div class="staff-avatar" id="staffAvatar">👤</div>
+                <div class="staff-details">
+                    <h3 id="staffNameDisplay">Staff</h3>
+                    <p id="staffShopDisplay">Shop Name</p>
+                    <span class="staff-status">● Active</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="../index.html" class="nav-item"><span class="nav-icon">📊</span><span class="nav-label">Overview</span></a>
+                <a href="marketplace.html" class="nav-item"><span class="nav-icon">🏪</span><span class="nav-label">Marketplace</span><span class="nav-badge" id="productBadge">0</span></a>
+                <a href="addstock.html" class="nav-item"><span class="nav-icon">📦</span><span class="nav-label">Restock</span></a>
+                <a href="orders.html" class="nav-item active"><span class="nav-icon">📋</span><span class="nav-label">Orders</span></a>
+                <a href="announcements.html" class="nav-item"><span class="nav-icon">📢</span><span class="nav-label">Announcements</span><span class="nav-badge" id="announceBadge">0</span></a>
+                <a href="mysales.html" class="nav-item"><span class="nav-icon">💰</span><span class="nav-label">My Sales</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="logout-btn" id="logoutBtn"><span class="logout-icon">🚪</span><span>Logout</span></button>
+            </div>
+        </aside>
+
+        <!-- MAIN -->
+        <main class="main-content">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button class="menu-toggle" id="menuToggle">☰</button>
+                    <h1 class="page-title">📋 Orders</h1>
+                </div>
+                <div class="topbar-actions">
+                    <button class="theme-toggle" id="themeToggle">🌙</button>
+                    <div class="notification-bell">🔔<span class="notification-badge" id="alertBadge">0</span></div>
+                </div>
+            </header>
+
+            <div class="page-content">
+                <div class="orders-container">
+                    <!-- Order Summary -->
+                    <div class="order-summary">
+                        <h2>🧾 Order Summary</h2>
+                        <p class="sub-text">Review your order before completing</p>
+
+                        <div class="order-items" id="orderItems">
+                            <div class="empty-cart-msg">
+                                <span>🛒</span>
+                                <p>Your cart is empty</p>
+                                <a href="marketplace.html" class="btn btn-primary">Go to Marketplace</a>
+                            </div>
+                        </div>
+
+                        <div class="order-totals" id="orderTotals" style="display:none;">
+                            <div class="total-row">
+                                <span>Subtotal</span>
+                                <span id="orderSubtotal">KSh 0</span>
+                            </div>
+                            <div class="total-row discount-row">
+                                <span>Discount</span>
+                                <input type="number" id="orderDiscount" value="0" min="0" step="50" />
+                            </div>
+                            <div class="total-row grand-total">
+                                <span>Total</span>
+                                <span id="orderTotal">KSh 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment & Customer -->
+                    <div class="order-payment">
+                        <h3>💳 Payment Method</h3>
+                        <div class="payment-methods">
+                            <button class="payment-btn active" data-method="cash" onclick="selectPayment('cash')">
+                                💵 Cash
+                            </button>
+                            <button class="payment-btn" data-method="mpesa" onclick="selectPayment('mpesa')">
+                                📲 M-Pesa
+                            </button>
+                        </div>
+
+                        <div class="payment-details" id="cashPayment">
+                            <div class="form-group">
+                                <label>Amount Received</label>
+                                <input type="number" id="cashReceived" placeholder="Enter amount received" />
+                            </div>
+                            <div class="change-display" id="cashChangeDisplay">
+                                Change: <span id="cashChange">KSh 0</span>
+                            </div>
+                        </div>
+
+                        <div class="payment-details" id="mpesaPayment" style="display:none;">
+                            <div class="form-group">
+                                <label>M-Pesa Transaction Code <span class="required">*</span></label>
+                                <input type="text" id="mpesaCode" placeholder="e.g. QWERTY123" />
+                            </div>
+                            <div class="form-group">
+                                <label>Customer Phone Number <span class="required">*</span></label>
+                                <input type="tel" id="mpesaPhone" placeholder="e.g. 0712345678" />
+                            </div>
+                        </div>
+
+                        <div class="customer-section">
+                            <h4>👤 Customer Details (Optional)</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Customer Name</label>
+                                    <input type="text" id="customerName" placeholder="Customer name" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Customer Phone</label>
+                                    <input type="tel" id="customerPhone" placeholder="Phone number" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-green btn-complete" id="completeOrderBtn" onclick="completeOrder()">
+                            ✅ Complete Order
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content success-content">
+            <div class="success-icon">🎉</div>
+            <h2>Order Completed!</h2>
+            <p>Your order has been processed successfully.</p>
+            <div class="order-receipt" id="orderReceipt"></div>
+            <div class="success-actions">
+                <button class="btn btn-primary" onclick="printReceipt()">🖨️ Print Receipt</button>
+                <button class="btn btn-ghost" onclick="closeModal('successModal'); window.location.href='marketplace.html';">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast">
+        <span class="toast-icon" id="toastIcon">✅</span>
+        <span class="toast-message" id="toastMessage">Success!</span>
+    </div>
+
+    <script src="js/orders.js"></script>
+</body>
+</html>

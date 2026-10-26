@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+    <title>Register — ShopFlow</title>
+    <meta name="description" content="Register your shop on ShopFlow - The smart POS & Inventory system" />
+    
+    <!-- ===== SECURITY META TAGS ===== -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="color-scheme" content="light dark">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+    
+    <link rel="stylesheet" href="css/register.css" />
+</head>
+<body>
+    <div class="register-wrapper">
+        <!-- ===== HEADER ===== -->
+        <div class="register-header">
+            <a href="../index.html" class="back-link">← Back to Home</a>
+            <a href="#" class="brand"><span class="dot"></span>ShopFlow</a>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        </div>
+
+        <!-- ===== REGISTER BOX ===== -->
+        <div class="register-box">
+            <!-- Top -->
+            <div class="register-top">
+                <h1>Create Your Account</h1>
+                <p class="sub">Start your 14-day free trial today</p>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="progress-bar" id="progressBar">
+                <div class="progress-step active" data-step="1">
+                    <span class="step-num">1</span>
+                    <span class="step-label">Role</span>
+                </div>
+                <div class="progress-step" data-step="2">
+                    <span class="step-num">2</span>
+                    <span class="step-label">Shop</span>
+                </div>
+                <div class="progress-step" data-step="3">
+                    <span class="step-num">3</span>
+                    <span class="step-label">Owner</span>
+                </div>
+                <div class="progress-step" data-step="4">
+                    <span class="step-num">4</span>
+                    <span class="step-label">Categories</span>
+                </div>
+                <div class="progress-step" data-step="5">
+                    <span class="step-num">5</span>
+                    <span class="step-label">Plan</span>
+                </div>
+            </div>
+
+            <!-- ===== STEP 1: ROLE SELECTION ===== -->
+            <div class="form-step active" data-step="1">
+                <h2>👤 Who are you?</h2>
+                <p class="step-sub">Select how you'll use ShopFlow</p>
+
+                <div class="role-grid">
+                    <div class="role-card" onclick="selectRole('solo')" data-role="solo">
+                        <div class="role-icon">👩‍💼</div>
+                        <h3>Solo Owner</h3>
+                        <p>I run my shop alone. No staff needed.</p>
+                        <span class="role-check">✓</span>
+                    </div>
+                    <div class="role-card" onclick="selectRole('owner')" data-role="owner">
+                        <div class="role-icon">👔</div>
+                        <h3>Shop Owner</h3>
+                        <p>I have staff who work with me.</p>
+                        <span class="role-check">✓</span>
+                    </div>
+                    <div class="role-card" onclick="selectRole('staff')" data-role="staff" style="opacity:0.6;cursor:not-allowed;">
+                        <div class="role-icon">👤</div>
+                        <h3>Staff Member</h3>
+                        <p>Join as staff — <strong>invited by owner</strong></p>
+                        <span class="role-check">✓</span>
+                    </div>
+                </div>
+
+                <!-- Staff Info Message -->
+                <div id="staffInfoMessage" style="display:none;margin-top:16px;padding:16px;background:color-mix(in srgb, var(--amber) 10%, var(--bg));border-radius:var(--radius);border:1px solid var(--amber);">
+                    <p style="font-size:14px;color:var(--text);">
+                        <strong>📌 Staff Registration</strong><br />
+                        Staff members cannot register on their own. Please ask your shop owner to send you an invitation link or add you from their dashboard.
+                    </p>
+                    <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;">
+                        <span style="background:var(--bg-card);padding:4px 12px;border-radius:20px;font-size:12px;border:1px solid var(--border);">👔 Ask your employer</span>
+                        <span style="background:var(--bg-card);padding:4px 12px;border-radius:20px;font-size:12px;border:1px solid var(--border);">📧 Check your email for invitation</span>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary btn-block" id="step1Btn" disabled>Continue →</button>
+            </div>
+
+            <!-- ===== STEP 2: SHOP DETAILS ===== -->
+            <div class="form-step" data-step="2">
+                <h2>🏪 Shop Details</h2>
+                <p class="step-sub">Tell us about your shop</p>
+
+                <div class="form-group">
+                    <label>Shop Logo / Image</label>
+                    <div class="logo-upload">
+                        <div class="logo-preview" id="logoPreview">
+                            <span>🏪</span>
+                        </div>
+                        <div>
+                            <button type="button" class="btn-upload" id="uploadBtn">Upload Image</button>
+                            <input type="file" id="logoInput" accept="image/*" style="display:none;" />
+                            <span class="hint">PNG, JPG up to 2MB</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Shop Name <span class="required">*</span></label>
+                    <input type="text" id="shopName" placeholder="e.g. Amani Perfumes" required />
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Shop Location <span class="required">*</span></label>
+                        <input type="text" id="shopLocation" placeholder="e.g. Moi Avenue, Nairobi" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Shop Phone <span class="required">*</span></label>
+                        <input type="tel" id="shopPhone" placeholder="+254 7XX XXX XXX" required />
+                    </div>
+                </div>
+
+                <div class="form-group" id="shopTypeGroup">
+                    <label>Shop Type <span class="required">*</span></label>
+                    <select id="shopType" required>
+                        <option value="">Select shop type...</option>
+                        <option value="Perfume Shop">Perfume Shop</option>
+                        <option value="Electronics Store">Electronics Store</option>
+                        <option value="Grocery Store">Grocery Store</option>
+                        <option value="Clothing Store">Clothing Store</option>
+                        <option value="Pharmacy">Pharmacy</option>
+                        <option value="Hardware Store">Hardware Store</option>
+                        <option value="Restaurant">Restaurant</option>
+                        <option value="Bookstore">Bookstore</option>
+                        <option value="Furniture Store">Furniture Store</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Shop Description</label>
+                    <textarea id="shopDesc" rows="2" placeholder="Tell us about your shop..."></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button class="btn btn-ghost" id="step2Back">← Back</button>
+                    <button class="btn btn-primary" id="step2Btn">Continue →</button>
+                </div>
+            </div>
+
+            <!-- ===== STEP 3: OWNER VERIFICATION ===== -->
+            <div class="form-step" data-step="3">
+                <h2>👤 Owner Verification</h2>
+                <p class="step-sub">Confirm your identity</p>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Owner Full Name <span class="required">*</span></label>
+                        <input type="text" id="ownerName" placeholder="e.g. James Mwangi" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Owner Email <span class="required">*</span></label>
+                        <input type="email" id="ownerEmail" placeholder="james@example.com" required />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Phone Number (for OTP) <span class="required">*</span></label>
+                    <div class="otp-group">
+                        <input type="tel" id="otpPhone" placeholder="+254 7XX XXX XXX" required />
+                        <button class="btn-otp" id="sendOtpBtn">Send OTP</button>
+                    </div>
+                    <div class="otp-verify-row">
+                        <input type="text" id="otpCode" placeholder="Enter 6-digit code" />
+                        <button class="btn btn-ghost" id="verifyOtpBtn">Verify</button>
+                        <span class="otp-verified" id="otpVerified">✅ Verified</span>
+                    </div>
+                    <small style="color:var(--text-soft);font-size:12px;">We'll send a 6-digit code to verify your phone</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Create Password <span class="required">*</span></label>
+                    <input type="password" id="registerPassword" placeholder="Min 6 characters" minlength="6" required />
+                    <small style="color:var(--text-soft);font-size:12px;">Use at least 6 characters for security.</small>
+                </div>
+
+                <div class="trial-box">
+                    <span>🎁</span>
+                    <div>
+                        <strong>14-Day Free Trial</strong>
+                        <p>No payment required — start selling immediately</p>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button class="btn btn-ghost" id="step3Back">← Back</button>
+                    <button class="btn btn-primary" id="step3Btn">Continue →</button>
+                </div>
+            </div>
+
+            <!-- ===== STEP 4: CATEGORIES ===== -->
+            <div class="form-step" data-step="4">
+                <h2>📂 Product Categories</h2>
+                <p class="step-sub">Add categories for the products you sell</p>
+
+                <div class="categories-info">
+                    💡 <strong>Tip:</strong> Add categories like "Perfumes", "Cosmetics", "Accessories"
+                </div>
+
+                <div class="category-input-group">
+                    <input type="text" id="categoryInput" placeholder="e.g. Perfumes, Electronics" />
+                    <button class="btn btn-primary" id="addCategoryBtn">+ Add</button>
+                </div>
+
+                <div class="categories-list" id="categoriesList">
+                    <div class="category-empty">
+                        <span>📂</span>
+                        <p>No categories added yet</p>
+                    </div>
+                </div>
+
+                <div class="suggested-categories">
+                    <p>Suggested for your shop type:</p>
+                    <div class="suggested-tags" id="suggestedTags"></div>
+                </div>
+
+                <div class="form-actions">
+                    <button class="btn btn-ghost" id="step4Back">← Back</button>
+                    <button class="btn btn-primary" id="step4Btn">Continue →</button>
+                </div>
+            </div>
+
+            <!-- ===== STEP 5: PLAN SELECTION ===== -->
+            <div class="form-step" data-step="5">
+                <h2>💳 Choose Your Plan</h2>
+                <p class="step-sub">14-day free trial included</p>
+
+                <div class="plans-grid" id="plansGrid">
+                    <div class="plan-card" data-plan="starter">
+                        <div class="plan-name">Starter</div>
+                        <div class="plan-price">KSh 1,500 <span>/mo</span></div>
+                        <ul class="plan-features">
+                            <li>Up to 200 products</li>
+                            <li>2 staff accounts</li>
+                            <li>Basic reports</li>
+                            <li>Email support</li>
+                        </ul>
+                        <button class="btn btn-ghost plan-btn">Select</button>
+                    </div>
+                    <div class="plan-card selected" data-plan="business">
+                        <div class="popular-badge">⭐ Most Popular</div>
+                        <div class="plan-name">Business</div>
+                        <div class="plan-price">KSh 3,500 <span>/mo</span></div>
+                        <ul class="plan-features">
+                            <li>Unlimited products</li>
+                            <li>5 staff accounts</li>
+                            <li>Advanced analytics</li>
+                            <li>Priority support</li>
+                            <li>M-Pesa reconciliation</li>
+                        </ul>
+                        <button class="btn btn-primary plan-btn">Selected</button>
+                    </div>
+                    <div class="plan-card" data-plan="enterprise">
+                        <div class="plan-name">Enterprise</div>
+                        <div class="plan-price">KSh 7,500 <span>/mo</span></div>
+                        <ul class="plan-features">
+                            <li>Unlimited everything</li>
+                            <li>Unlimited staff</li>
+                            <li>Custom integrations</li>
+                            <li>Dedicated account manager</li>
+                            <li>Multi-branch support</li>
+                        </ul>
+                        <button class="btn btn-ghost plan-btn">Select</button>
+                    </div>
+                </div>
+
+                <div class="trial-notice">
+                    <span>⏳</span>
+                    <span><strong>14-day free trial included.</strong> You won't be charged until your trial ends. Cancel anytime.</span>
+                </div>
+
+                <div class="form-actions">
+                    <button class="btn btn-ghost" id="step5Back">← Back</button>
+                    <button class="btn btn-green btn-complete" id="completeBtn">Complete Registration 🎉</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== TOAST ===== -->
+    <div class="toast" id="toast">
+        <span class="toast-icon" id="toastIcon">✅</span>
+        <span class="toast-message" id="toastMessage">Success!</span>
+    </div>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script src="js/services/api.js"></script>
+    <script src="js/services/auth.js"></script>
+    <script src="js/services/theme.js"></script>
+    <script src="js/services/realtime.js"></script>
+    <script src="js/services/offline.js"></script>
+    <script src="js/register.js"></script>
+</body>
+</html>

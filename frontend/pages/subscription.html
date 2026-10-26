@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes" />
+    <title>Subscription — ShopFlow</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="css/subscription.css" />
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- ===== SIDEBAR ===== -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="#" class="brand">
+                    <span class="dot"></span>
+                    <span>ShopFlow</span>
+                </a>
+                <button class="collapse-btn" id="collapseBtn">◀</button>
+                <button class="close-sidebar" id="closeSidebar">×</button>
+            </div>
+
+            <div class="shop-info" id="shopInfo">
+                <div class="shop-avatar" id="shopAvatar">🏪</div>
+                <div class="shop-details">
+                    <h3 id="shopNameDisplay">My Shop</h3>
+                    <p id="shopOwnerDisplay">Owner</p>
+                    <span class="shop-status">● Active</span>
+                </div>
+            </div>
+
+            <div class="trial-banner-sidebar" id="trialBanner">
+                <span class="trial-icon">⏳</span>
+                <div>
+                    <p class="trial-label">Free Trial</p>
+                    <p class="trial-days" id="trialDays">14 days left</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item"><span class="nav-icon">📊</span><span class="nav-label">Overview</span></a>
+                <a href="products.html" class="nav-item"><span class="nav-icon">📦</span><span class="nav-label">Products</span></a>
+                <a href="sales.html" class="nav-item"><span class="nav-icon">💰</span><span class="nav-label">Sales</span></a>
+                <a href="staff.html" class="nav-item"><span class="nav-icon">👥</span><span class="nav-label">Staff</span></a>
+                <a href="announcements.html" class="nav-item"><span class="nav-icon">📢</span><span class="nav-label">Announcements</span></a>
+                <a href="flashsales.html" class="nav-item"><span class="nav-icon">⚡</span><span class="nav-label">Flash Sales</span></a>
+                <a href="subscription.html" class="nav-item active" data-tooltip="Subscription"><span class="nav-icon">💳</span><span class="nav-label">Subscription</span></a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="logout-btn" id="logoutBtn">
+                    <span class="logout-icon">🚪</span>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- ===== FLOATING EXPAND BUTTON ===== -->
+        <button class="expand-btn" id="expandBtn" title="Expand sidebar">☰</button>
+
+        <!-- ===== MAIN CONTENT ===== -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button class="menu-toggle" id="menuToggle">☰</button>
+                    <button class="sidebar-toggle" id="sidebarToggle">
+                        <span>☰</span>
+                        <span class="toggle-label">Menu</span>
+                    </button>
+                    <h1 class="page-title" id="pageTitle">💳 Subscription</h1>
+                </div>
+                <div class="topbar-actions">
+                    <button class="theme-toggle" id="themeToggle">🌙</button>
+                    <div class="notification-bell">
+                        🔔
+                        <span class="notification-badge" id="alertBadge">0</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <div class="page-content">
+                <!-- ===== CURRENT PLAN BANNER ===== -->
+                <div class="current-plan-banner" id="currentPlanBanner">
+                    <div class="plan-info">
+                        <span class="plan-icon" id="currentPlanIcon">⭐</span>
+                        <div>
+                            <p class="plan-label">Current Plan</p>
+                            <h2 id="currentPlanName">Pro</h2>
+                            <p class="plan-details" id="currentPlanDetails">
+                                <span id="currentStaffLimit">5</span> staff members • 
+                                <span id="currentProductLimit">Unlimited</span> products
+                            </p>
+                        </div>
+                    </div>
+                    <div class="plan-status">
+                        <div class="status-badge" id="planStatusBadge">
+                            <span class="status-dot active"></span>
+                            Active
+                        </div>
+                        <div class="billing-info">
+                            <span id="planPrice">KSh 3,500</span>
+                            <span>/ month</span>
+                        </div>
+                        <div class="trial-info" id="trialInfo">
+                            ⏳ <span id="trialDaysRemaining">14</span> days trial remaining
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== SUBSCRIPTION PLANS ===== -->
+                <div class="plans-header">
+                    <h2>Choose Your Plan</h2>
+                    <p class="sub">Upgrade or downgrade anytime. All plans include a 14-day free trial.</p>
+                </div>
+
+                <div class="plans-grid" id="plansGrid">
+                    <!-- Plan 1: Starter -->
+                    <div class="plan-card" data-plan="starter">
+                        <div class="plan-badge">Starter</div>
+                        <div class="plan-price">
+                            <span class="amount">KSh 2,500</span>
+                            <span class="period">/ month</span>
+                        </div>
+                        <ul class="plan-features">
+                            <li>👥 <strong>3</strong> staff accounts</li>
+                            <li>📦 <strong>500</strong> products</li>
+                            <li>📊 Basic sales reports</li>
+                            <li>📱 M-Pesa & Cash tracking</li>
+                            <li>🧾 Receipt generation</li>
+                            <li>📢 Announcements</li>
+                            <li>💬 Email support</li>
+                        </ul>
+                        <button class="btn btn-ghost plan-btn" onclick="selectPlan('starter')">Choose Starter</button>
+                    </div>
+
+                    <!-- Plan 2: Business (Recommended) -->
+                    <div class="plan-card popular" data-plan="business">
+                        <div class="popular-badge">⭐ Most Popular</div>
+                        <div class="plan-badge">Business</div>
+                        <div class="plan-price">
+                            <span class="amount">KSh 3,500</span>
+                            <span class="period">/ month</span>
+                        </div>
+                        <ul class="plan-features">
+                            <li>👥 <strong>5</strong> staff accounts</li>
+                            <li>📦 <strong>2,000</strong> products</li>
+                            <li>📊 Advanced analytics</li>
+                            <li>📱 M-Pesa & Cash tracking</li>
+                            <li>🧾 Receipt generation</li>
+                            <li>📢 Announcements + Push</li>
+                            <li>⚡ Flash sales</li>
+                            <li>📈 Profit/Loss reports</li>
+                            <li>💬 Priority support</li>
+                        </ul>
+                        <button class="btn btn-primary plan-btn" onclick="selectPlan('business')">Choose Business</button>
+                    </div>
+
+                    <!-- Plan 3: Premium -->
+                    <div class="plan-card" data-plan="premium">
+                        <div class="plan-badge">Premium</div>
+                        <div class="plan-price">
+                            <span class="amount">KSh 5,500</span>
+                            <span class="period">/ month</span>
+                        </div>
+                        <ul class="plan-features">
+                            <li>👥 <strong>10</strong> staff accounts</li>
+                            <li>📦 <strong>5,000</strong> products</li>
+                            <li>📊 Advanced analytics</li>
+                            <li>📱 M-Pesa & Cash tracking</li>
+                            <li>🧾 Receipt generation</li>
+                            <li>📢 Announcements + Push</li>
+                            <li>⚡ Flash sales</li>
+                            <li>📈 Profit/Loss reports</li>
+                            <li>🏷️ Bulk product import</li>
+                            <li>📊 Staff performance tracking</li>
+                            <li>💬 Priority support</li>
+                            <li>📱 Mobile app access</li>
+                        </ul>
+                        <button class="btn btn-ghost plan-btn" onclick="selectPlan('premium')">Choose Premium</button>
+                    </div>
+
+                    <!-- Plan 4: Enterprise -->
+                    <div class="plan-card" data-plan="enterprise">
+                        <div class="plan-badge">Enterprise</div>
+                        <div class="plan-price">
+                            <span class="amount">KSh 7,500</span>
+                            <span class="period">/ month</span>
+                        </div>
+                        <ul class="plan-features">
+                            <li>👥 <strong>Unlimited</strong> staff accounts</li>
+                            <li>📦 <strong>Unlimited</strong> products</li>
+                            <li>📊 Advanced analytics</li>
+                            <li>📱 M-Pesa & Cash tracking</li>
+                            <li>🧾 Receipt generation</li>
+                            <li>📢 Announcements + Push</li>
+                            <li>⚡ Flash sales</li>
+                            <li>📈 Profit/Loss reports</li>
+                            <li>🏷️ Bulk product import</li>
+                            <li>📊 Staff performance tracking</li>
+                            <li>📱 Mobile app access</li>
+                            <li>🔐 Multi-branch support</li>
+                            <li>📞 Dedicated account manager</li>
+                            <li>🛠️ Custom integrations</li>
+                        </ul>
+                        <button class="btn btn-ghost plan-btn" onclick="selectPlan('enterprise')">Choose Enterprise</button>
+                    </div>
+                </div>
+
+                <!-- ===== PLAN COMPARISON TABLE ===== -->
+                <div class="comparison-section">
+                    <h3>📊 Plan Comparison</h3>
+                    <div class="comparison-table-container">
+                        <table class="comparison-table">
+                            <thead>
+                                <tr>
+                                    <th>Feature</th>
+                                    <th>Starter</th>
+                                    <th class="highlight">Business</th>
+                                    <th>Premium</th>
+                                    <th>Enterprise</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Staff Accounts</td>
+                                    <td>3</td>
+                                    <td class="highlight">5</td>
+                                    <td>10</td>
+                                    <td>Unlimited</td>
+                                </tr>
+                                <tr>
+                                    <td>Products</td>
+                                    <td>500</td>
+                                    <td class="highlight">2,000</td>
+                                    <td>5,000</td>
+                                    <td>Unlimited</td>
+                                </tr>
+                                <tr>
+                                    <td>Sales Reports</td>
+                                    <td>Basic</td>
+                                    <td class="highlight">Advanced</td>
+                                    <td>Advanced</td>
+                                    <td>Advanced</td>
+                                </tr>
+                                <tr>
+                                    <td>Flash Sales</td>
+                                    <td>—</td>
+                                    <td class="highlight">✅</td>
+                                    <td>✅</td>
+                                    <td>✅</td>
+                                </tr>
+                                <tr>
+                                    <td>Bulk Product Import</td>
+                                    <td>—</td>
+                                    <td>—</td>
+                                    <td>✅</td>
+                                    <td>✅</td>
+                                </tr>
+                                <tr>
+                                    <td>Staff Performance</td>
+                                    <td>—</td>
+                                    <td>—</td>
+                                    <td>✅</td>
+                                    <td>✅</td>
+                                </tr>
+                                <tr>
+                                    <td>Multi-Branch Support</td>
+                                    <td>—</td>
+                                    <td>—</td>
+                                    <td>—</td>
+                                    <td>✅</td>
+                                </tr>
+                                <tr>
+                                    <td>Priority Support</td>
+                                    <td>Email</td>
+                                    <td class="highlight">Priority</td>
+                                    <td>Priority</td>
+                                    <td>Dedicated</td>
+                                </tr>
+                                <tr>
+                                    <td>Mobile App Access</td>
+                                    <td>—</td>
+                                    <td>—</td>
+                                    <td>✅</td>
+                                    <td>✅</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Price</strong></td>
+                                    <td><strong>KSh 2,500</strong></td>
+                                    <td class="highlight"><strong>KSh 3,500</strong></td>
+                                    <td><strong>KSh 5,500</strong></td>
+                                    <td><strong>KSh 7,500</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ===== FAQ SECTION ===== -->
+                <div class="faq-section">
+                    <h3>❓ Frequently Asked Questions</h3>
+                    <div class="faq-list">
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFaq(this)">
+                                <span>Can I change my plan later?</span>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                Yes! You can upgrade or downgrade your plan at any time. Changes take effect immediately.
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFaq(this)">
+                                <span>What payment methods do you accept?</span>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                We accept M-Pesa, Bank Transfer, and Credit/Debit Cards. All payments are securely processed.
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFaq(this)">
+                                <span>Is there a contract or commitment?</span>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                No! All our plans are month-to-month. You can cancel anytime with no penalties.
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFaq(this)">
+                                <span>What happens when my trial ends?</span>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                You'll receive a notification 3 days before your trial ends. You can then choose a plan to continue using ShopFlow.
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFaq(this)">
+                                <span>Do you offer discounts for annual billing?</span>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                Yes! Pay annually and get 2 months free on any plan. Contact our support team to set this up.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ===== UPGRADE CONFIRMATION MODAL ===== -->
+    <div class="modal" id="upgradeModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>💳 Confirm Upgrade</h3>
+                <button class="modal-close" onclick="closeModal('upgradeModal')">×</button>
+            </div>
+            <div class="upgrade-content">
+                <div class="upgrade-details">
+                    <div class="upgrade-row">
+                        <span class="label">Current Plan</span>
+                        <span class="value" id="upgradeCurrentPlan">—</span>
+                    </div>
+                    <div class="upgrade-row">
+                        <span class="label">New Plan</span>
+                        <span class="value" id="upgradeNewPlan">—</span>
+                    </div>
+                    <div class="upgrade-row">
+                        <span class="label">Price</span>
+                        <span class="value" id="upgradePrice">—</span>
+                    </div>
+                    <div class="upgrade-row highlight">
+                        <span class="label">What changes</span>
+                        <span class="value" id="upgradeChanges">—</span>
+                    </div>
+                </div>
+                <div class="payment-method">
+                    <p>Select payment method</p>
+                    <div class="payment-options">
+                        <button class="payment-option" onclick="selectPaymentMethod('mpesa')">
+                            📲 M-Pesa
+                        </button>
+                        <button class="payment-option" onclick="selectPaymentMethod('card')">
+                            💳 Card
+                        </button>
+                        <button class="payment-option" onclick="selectPaymentMethod('bank')">
+                            🏦 Bank Transfer
+                        </button>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-ghost" onclick="closeModal('upgradeModal')">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="confirmUpgradeBtn" onclick="confirmUpgrade()">
+                        ✅ Confirm Upgrade
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== TOAST ===== -->
+    <div class="toast" id="toast">
+        <span class="toast-icon" id="toastIcon">✅</span>
+        <span class="toast-message" id="toastMessage">Success!</span>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+    <script src="js/subscription.js"></script>
+</body>
+</html>

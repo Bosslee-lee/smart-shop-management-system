@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes" />
+    <title>Products — ShopFlow</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="css/products.css" />
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- ===== SIDEBAR ===== -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="#" class="brand">
+                    <span class="dot"></span>
+                    <span>ShopFlow</span>
+                </a>
+                <button class="collapse-btn" id="collapseBtn" title="Toggle sidebar">◀</button>
+                <button class="close-sidebar" id="closeSidebar">×</button>
+            </div>
+
+            <div class="shop-info" id="shopInfo">
+                <div class="shop-avatar" id="shopAvatar">🏪</div>
+                <div class="shop-details">
+                    <h3 id="shopNameDisplay">My Shop</h3>
+                    <p id="shopOwnerDisplay">Owner</p>
+                    <span class="shop-status">● Active</span>
+                </div>
+            </div>
+
+            <div class="trial-banner-sidebar" id="trialBanner">
+                <span class="trial-icon">⏳</span>
+                <div>
+                    <p class="trial-label">Free Trial</p>
+                    <p class="trial-days" id="trialDays">14 days left</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item"><span class="nav-icon">📊</span><span class="nav-label">Overview</span></a>
+                <a href="products.html" class="nav-item active" data-tooltip="Products"><span class="nav-icon">📦</span><span class="nav-label">Products</span></a>
+                <a href="sales.html" class="nav-item" data-tooltip="Sales Reports"><span class="nav-icon">💰</span><span class="nav-label">Sales Reports</span></a>
+                <a href="staff.html" class="nav-item" data-tooltip="Manage Staff"><span class="nav-icon">👥</span><span class="nav-label">Manage Staff</span></a>
+                <a href="announcements.html" class="nav-item" data-tooltip="Announcements"><span class="nav-icon">📢</span><span class="nav-label">Announcements</span></a>
+                <a href="flashsales.html" class="nav-item" data-tooltip="Flash Sales"><span class="nav-icon">⚡</span><span class="nav-label">Flash Sales</span></a>
+                <a href="subscription.html" class="nav-item" data-tooltip="Subscription"><span class="nav-icon">💳</span><span class="nav-label">Subscription</span></a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="logout-btn" id="logoutBtn">
+                    <span class="logout-icon">🚪</span>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- ===== FLOATING EXPAND BUTTON ===== -->
+        <button class="expand-btn" id="expandBtn" title="Expand sidebar">☰</button>
+
+        <!-- ===== MAIN CONTENT ===== -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button class="menu-toggle" id="menuToggle">☰</button>
+                    <button class="sidebar-toggle" id="sidebarToggle">
+                        <span>☰</span>
+                        <span class="toggle-label">Menu</span>
+                    </button>
+                    <h1 class="page-title" id="pageTitle">📦 Products</h1>
+                </div>
+                <div class="topbar-actions">
+                    <button class="theme-toggle" id="themeToggle">🌙</button>
+                    <div class="notification-bell">
+                        🔔
+                        <span class="notification-badge">3</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <div class="page-content">
+                <!-- Product Stats -->
+                <div class="product-stats">
+                    <div class="product-stat-card">
+                        <span class="number" id="totalProductsStat">0</span>
+                        <span class="label">Total Products</span>
+                    </div>
+                    <div class="product-stat-card">
+                        <span class="number" id="totalStockStat">0</span>
+                        <span class="label">Total Stock Units</span>
+                    </div>
+                    <div class="product-stat-card">
+                        <span class="number" id="lowStockStat">0</span>
+                        <span class="label">Low Stock (< 10)</span>
+                    </div>
+                    <div class="product-stat-card">
+                        <span class="number" id="outOfStockStat">0</span>
+                        <span class="label">Out of Stock</span>
+                    </div>
+                </div>
+
+                <!-- Quick Add Bar -->
+                <div class="quick-add-bar">
+                    <div class="quick-add-inputs">
+                        <input type="text" id="quickProductName" placeholder="🔍 Product name or scan barcode..." class="search-input" />
+                        <input type="number" id="quickProductPrice" placeholder="Price" class="quick-price" />
+                        <input type="number" id="quickProductStock" placeholder="Stock" class="quick-stock" />
+                        <button class="btn btn-primary" id="quickAddBtn">⚡ Quick Add</button>
+                    </div>
+                    <div class="quick-add-actions">
+                        <button class="btn btn-ghost" onclick="openModal('scanModal')">📸 Scan</button>
+                        <button class="btn btn-ghost" onclick="openModal('batchModal')">📋 Batch</button>
+                        <button class="btn btn-primary" onclick="openModal('addProductModal')">+ Full Add</button>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="product-filters">
+                    <input type="text" id="productSearch" placeholder="🔍 Search products..." class="search-input" />
+                    <select id="productFilter" class="filter-select">
+                        <option value="all">All Products</option>
+                        <option value="low">Low Stock (< 10)</option>
+                        <option value="out">Out of Stock</option>
+                        <option value="instock">In Stock</option>
+                    </select>
+                    <select id="categoryFilter" class="filter-select">
+                        <option value="all">All Categories</option>
+                    </select>
+                </div>
+
+                <!-- Product Grid -->
+                <div class="product-grid" id="productGrid">
+                    <!-- Products rendered by JavaScript -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ===== MODALS ===== -->
+
+    <!-- Scan Modal -->
+    <div class="modal" id="scanModal">
+        <div class="modal-content scan-modal">
+            <div class="modal-header">
+                <h3>📸 Scan Product</h3>
+                <button class="modal-close" onclick="closeModal('scanModal')">×</button>
+            </div>
+            <div class="scan-container">
+                <div class="scanner-area" id="scannerArea">
+                    <video id="scannerVideo" autoplay playsinline></video>
+                    <canvas id="scannerCanvas" style="display:none;"></canvas>
+                    <div class="scan-overlay">
+                        <div class="scan-frame"></div>
+                        <p>Position barcode in frame</p>
+                    </div>
+                </div>
+                <div class="scan-actions">
+                    <button class="btn btn-primary" id="startScanBtn">📷 Start Camera</button>
+                    <button class="btn btn-ghost" id="capturePhotoBtn">📸 Capture Photo</button>
+                    <button class="btn btn-danger" id="stopScanBtn">⏹ Stop</button>
+                </div>
+                <div class="scan-result" id="scanResult" style="display:none;">
+                    <h4>✅ Product Detected</h4>
+                    <div class="scan-result-details">
+                        <p><strong>Name:</strong> <span id="scannedName">—</span></p>
+                        <p><strong>Price:</strong> <span id="scannedPrice">—</span></p>
+                        <p><strong>Barcode:</strong> <span id="scannedBarcode">—</span></p>
+                    </div>
+                    <div class="scan-result-actions">
+                        <button class="btn btn-primary" id="addScannedProduct">➕ Add Product</button>
+                        <button class="btn btn-ghost" id="editScannedProduct">✏️ Edit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Batch Add Modal -->
+    <div class="modal" id="batchModal">
+        <div class="modal-content batch-modal">
+            <div class="modal-header">
+                <h3>📋 Batch Add Products</h3>
+                <button class="modal-close" onclick="closeModal('batchModal')">×</button>
+            </div>
+            <div class="batch-container">
+                <p style="color:var(--text-soft);margin-bottom:12px;">Paste your products in this format: <strong>Name, Price, Stock</strong> (one per line)</p>
+                <div class="batch-example">
+                    <p><strong>Example:</strong></p>
+                    <pre>
+Chanel No. 5, 8500, 50
+Dior Sauvage, 7200, 30
+Black Opium, 6900, 25
+Coco Mademoiselle, 8100, 40</pre>
+                </div>
+                <textarea id="batchInput" rows="8" placeholder="Paste your products here..."></textarea>
+                <div class="batch-options">
+                    <label>
+                        <input type="checkbox" id="batchAutoCategory" checked />
+                        Auto-assign category
+                    </label>
+                    <select id="batchCategory" class="filter-select">
+                        <option value="">Select category for all</option>
+                    </select>
+                </div>
+                <div class="batch-preview" id="batchPreview"></div>
+                <div class="form-actions">
+                    <button class="btn btn-ghost" onclick="closeModal('batchModal')">Cancel</button>
+                    <button class="btn btn-primary" id="batchAddBtn">📥 Add All Products</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Product Modal (Full) -->
+    <div class="modal" id="addProductModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>➕ Add New Product</h3>
+                <button class="modal-close" onclick="closeModal('addProductModal')">×</button>
+            </div>
+            <form id="addProductForm">
+                <div class="form-group">
+                    <label>Product Image</label>
+                    <div class="image-upload">
+                        <div class="image-preview" id="imagePreview">
+                            <span>📷</span>
+                            <p>Click to upload</p>
+                        </div>
+                        <input type="file" id="productImage" accept="image/*" style="display:none;" />
+                        <button type="button" class="btn btn-ghost btn-sm" onclick="document.getElementById('productImage').click()">Upload</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Product Name <span class="required">*</span></label>
+                    <input type="text" id="productName" placeholder="e.g. Chanel No. 5" required />
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Price (KSh) <span class="required">*</span></label>
+                        <input type="number" id="productPrice" placeholder="8500" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Stock Units <span class="required">*</span></label>
+                        <input type="number" id="productStock" placeholder="50" required />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Barcode/SKU (Optional)</label>
+                    <input type="text" id="productBarcode" placeholder="Scan or enter barcode" />
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="productCategory"></select>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="productDesc" rows="2" placeholder="Product description..."></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-ghost" onclick="closeModal('addProductModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Product Modal -->
+    <div class="modal" id="editProductModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>✏️ Edit Product</h3>
+                <button class="modal-close" onclick="closeModal('editProductModal')">×</button>
+            </div>
+            <form id="editProductForm">
+                <input type="hidden" id="editProductIndex" />
+                <div class="form-group">
+                    <label>Product Image</label>
+                    <div class="image-upload">
+                        <div class="image-preview" id="editImagePreview">
+                            <span>📷</span>
+                            <p>Click to change</p>
+                        </div>
+                        <input type="file" id="editProductImage" accept="image/*" style="display:none;" />
+                        <button type="button" class="btn btn-ghost btn-sm" onclick="document.getElementById('editProductImage').click()">Change</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Product Name <span class="required">*</span></label>
+                    <input type="text" id="editProductName" required />
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Price (KSh) <span class="required">*</span></label>
+                        <input type="number" id="editProductPrice" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Stock Units <span class="required">*</span></label>
+                        <input type="number" id="editProductStock" required />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Barcode/SKU</label>
+                    <input type="text" id="editProductBarcode" />
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="editProductCategory"></select>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="editProductDesc" rows="2"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-ghost" onclick="closeModal('editProductModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Stock In Modal -->
+    <div class="modal" id="stockInModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>📦 Stock In</h3>
+                <button class="modal-close" onclick="closeModal('stockInModal')">×</button>
+            </div>
+            <form id="stockInForm">
+                <input type="hidden" id="stockInProductIndex" />
+                <div class="form-group">
+                    <label>Product</label>
+                    <p id="stockInProductName" style="font-weight:700;font-size:16px;padding:8px 0;">Product Name</p>
+                </div>
+                <div class="form-group">
+                    <label>Current Stock</label>
+                    <p id="stockInCurrentStock" style="font-size:16px;padding:8px 0;">0 units</p>
+                </div>
+                <div class="form-group">
+                    <label>Add Stock Units <span class="required">*</span></label>
+                    <input type="number" id="stockInQuantity" placeholder="Enter quantity to add" min="1" required />
+                </div>
+                <div class="stock-info">
+                    <p><strong>New Stock:</strong> <span class="new-stock" id="stockInNewTotal">0</span> units</p>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-ghost" onclick="closeModal('stockInModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">✅ Add Stock</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <span class="toast-icon" id="toastIcon">✅</span>
+        <span class="toast-message" id="toastMessage">Success!</span>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+    <script src="js/products.js"></script>
+</body>
+</html>

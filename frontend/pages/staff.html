@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes" />
+    <title>Staff Management — ShopFlow</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="css/staff.css" />
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- ===== SIDEBAR ===== -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="#" class="brand">
+                    <span class="dot"></span>
+                    <span>ShopFlow</span>
+                </a>
+                <button class="collapse-btn" id="collapseBtn">◀</button>
+                <button class="close-sidebar" id="closeSidebar">×</button>
+            </div>
+
+            <div class="shop-info" id="shopInfo">
+                <div class="shop-avatar" id="shopAvatar">🏪</div>
+                <div class="shop-details">
+                    <h3 id="shopNameDisplay">My Shop</h3>
+                    <p id="shopOwnerDisplay">Owner</p>
+                    <span class="shop-status">● Active</span>
+                </div>
+            </div>
+
+            <div class="trial-banner-sidebar" id="trialBanner">
+                <span class="trial-icon">⏳</span>
+                <div>
+                    <p class="trial-label">Free Trial</p>
+                    <p class="trial-days" id="trialDays">14 days left</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item"><span class="nav-icon">📊</span><span class="nav-label">Overview</span></a>
+                <a href="products.html" class="nav-item"><span class="nav-icon">📦</span><span class="nav-label">Products</span></a>
+                <a href="sales.html" class="nav-item"><span class="nav-icon">💰</span><span class="nav-label">Sales</span></a>
+                <a href="staff.html" class="nav-item active" data-tooltip="Staff"><span class="nav-icon">👥</span><span class="nav-label">Staff</span></a>
+                <a href="announcements.html" class="nav-item" data-tooltip="Announcements"><span class="nav-icon">📢</span><span class="nav-label">Announcements</span></a>
+                <a href="flashsales.html" class="nav-item" data-tooltip="Flash Sales"><span class="nav-icon">⚡</span><span class="nav-label">Flash Sales</span></a>
+                <a href="subscription.html" class="nav-item" data-tooltip="Subscription"><span class="nav-icon">💳</span><span class="nav-label">Subscription</span></a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="logout-btn" id="logoutBtn">
+                    <span class="logout-icon">🚪</span>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- ===== FLOATING EXPAND BUTTON ===== -->
+        <button class="expand-btn" id="expandBtn" title="Expand sidebar">☰</button>
+
+        <!-- ===== MAIN CONTENT ===== -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button class="menu-toggle" id="menuToggle">☰</button>
+                    <button class="sidebar-toggle" id="sidebarToggle">
+                        <span>☰</span>
+                        <span class="toggle-label">Menu</span>
+                    </button>
+                    <h1 class="page-title" id="pageTitle">👥 Staff Management</h1>
+                </div>
+                <div class="topbar-actions">
+                    <button class="theme-toggle" id="themeToggle">🌙</button>
+                    <div class="notification-bell">
+                        🔔
+                        <span class="notification-badge" id="alertBadge">0</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <div class="page-content">
+                <!-- ===== STAFF LIMIT BANNER ===== -->
+                <div class="staff-limit-banner" id="staffLimitBanner">
+                    <div class="limit-info">
+                        <span class="limit-icon">👥</span>
+                        <div>
+                            <p class="limit-title">Staff Management</p>
+                            <p class="limit-details" id="staffLimitDetails">
+                                <span id="currentStaffCount">0</span> of <span id="maxStaffLimit">1</span> staff members used
+                            </p>
+                        </div>
+                    </div>
+                    <div class="limit-actions">
+                        <div class="trial-indicator" id="trialIndicator">
+                            ⏳ Trial: <span id="trialDaysLeft">14</span> days left
+                        </div>
+                        <a href="subscription.html" class="btn btn-primary btn-sm">Upgrade Plan</a>
+                    </div>
+                </div>
+
+                <!-- ===== SECURITY INFO ===== -->
+                <div class="security-info">
+                    <div class="security-item">
+                        <span class="security-icon">🔐</span>
+                        <div>
+                            <strong>Device Binding</strong>
+                            <p>Each staff member is tied to one device. They can only login from their registered phone.</p>
+                        </div>
+                    </div>
+                    <div class="security-item">
+                        <span class="security-icon">📱</span>
+                        <div>
+                            <strong>OTP Verification</strong>
+                            <p>Staff receive an OTP on their phone for secure first-time login.</p>
+                        </div>
+                    </div>
+                    <div class="security-item">
+                        <span class="security-icon">⏰</span>
+                        <div>
+                            <strong>Session Control</strong>
+                            <p>Only one active session per staff member. Login from new device logs out the old one.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== STAFF STATS ===== -->
+                <div class="staff-stats">
+                    <div class="stat-card">
+                        <span class="stat-number" id="totalStaff">0</span>
+                        <span class="stat-label">Total Staff</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number active" id="activeStaff">0</span>
+                        <span class="stat-label">Active</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number blocked" id="blockedStaff">0</span>
+                        <span class="stat-label">Blocked</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number" id="staffSalesCount">KSh 0</span>
+                        <span class="stat-label">Total Sales by Staff</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number" id="deviceCount">0</span>
+                        <span class="stat-label">Registered Devices</span>
+                    </div>
+                </div>
+
+                <!-- ===== ADD STAFF BUTTON ===== -->
+                <div class="staff-actions">
+                    <button class="btn btn-primary" id="addStaffBtn" onclick="openModal('addStaffModal')">
+                        ➕ Add Staff Member
+                    </button>
+                    <span class="staff-limit-notice" id="staffLimitNotice"></span>
+                </div>
+
+                <!-- ===== STAFF LIST ===== -->
+                <div class="staff-list-container">
+                    <div class="staff-list-header">
+                        <h3>Staff Members</h3>
+                        <div class="staff-filters">
+                            <select id="staffFilter" class="filter-select">
+                                <option value="all">All</option>
+                                <option value="active">Active</option>
+                                <option value="blocked">Blocked</option>
+                            </select>
+                            <input type="text" id="staffSearch" placeholder="🔍 Search staff..." class="search-input" />
+                        </div>
+                    </div>
+                    <div class="staff-grid" id="staffGrid">
+                        <!-- Rendered by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ===== ADD STAFF MODAL ===== -->
+    <div class="modal" id="addStaffModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>➕ Add Staff Member</h3>
+                <button class="modal-close" onclick="closeModal('addStaffModal')">×</button>
+            </div>
+            <form id="addStaffForm">
+                <div class="form-group">
+                    <label>Full Name <span class="required">*</span></label>
+                    <input type="text" id="staffName" placeholder="e.g. Jane Muthoni" required />
+                </div>
+                <div class="form-group">
+                    <label>Phone Number <span class="required">*</span></label>
+                    <input type="tel" id="staffPhone" placeholder="+254 7XX XXX XXX" required />
+                    <small style="color:var(--text-soft);font-size:12px;">OTP will be sent to this number for verification</small>
+                </div>
+                <div class="form-group">
+                    <label>6-Digit PIN <span class="required">*</span></label>
+                    <input type="password" id="staffPin" maxlength="6" pattern="[0-9]{6}" placeholder="e.g. 123456" required />
+                    <small style="color:var(--text-soft);font-size:12px;">Staff will use this PIN to login (6 digits)</small>
+                </div>
+                <div class="form-group">
+                    <label>Device ID (Auto-detected on first login)</label>
+                    <input type="text" id="staffDeviceId" placeholder="Will be set on first login" disabled style="background:var(--border);" />
+                </div>
+                <div class="security-notice">
+                    <span>🔐</span>
+                    <p>Staff will receive an OTP on their phone. They can only login from one device.</p>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-ghost" onclick="closeModal('addStaffModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Staff</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== EDIT STAFF MODAL ===== -->
+    <div class="modal" id="editStaffModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>✏️ Edit Staff Member</h3>
+                <button class="modal-close" onclick="closeModal('editStaffModal')">×</button>
+            </div>
+            <form id="editStaffForm">
+                <input type="hidden" id="editStaffIndex" />
+                <div class="form-group">
+                    <label>Full Name <span class="required">*</span></label>
+                    <input type="text" id="editStaffName" required />
+                </div>
+                <div class="form-group">
+                    <label>Phone Number <span class="required">*</span></label>
+                    <input type="tel" id="editStaffPhone" required />
+                </div>
+                <div class="form-group">
+                    <label>New PIN (Optional)</label>
+                    <input type="password" id="editStaffPin" maxlength="6" pattern="[0-9]{6}" placeholder="Leave blank to keep current" />
+                    <small style="color:var(--text-soft);font-size:12px;">Enter new 6-digit PIN to change</small>
+                </div>
+                <div class="form-group">
+                    <label>Device ID</label>
+                    <input type="text" id="editStaffDeviceId" disabled style="background:var(--border);" />
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-ghost" onclick="closeModal('editStaffModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update Staff</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== STAFF DETAILS MODAL ===== -->
+    <div class="modal" id="staffDetailsModal">
+        <div class="modal-content staff-details-modal">
+            <div class="modal-header">
+                <h3>👤 Staff Details</h3>
+                <button class="modal-close" onclick="closeModal('staffDetailsModal')">×</button>
+            </div>
+            <div class="staff-details-content" id="staffDetailsContent">
+                <!-- Rendered by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== RESET DEVICE MODAL ===== -->
+    <div class="modal" id="resetDeviceModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>🔄 Reset Device Binding</h3>
+                <button class="modal-close" onclick="closeModal('resetDeviceModal')">×</button>
+            </div>
+            <div class="reset-device-content">
+                <p style="margin-bottom:12px;">This will allow this staff member to login from a new device. The old device will be automatically logged out.</p>
+                <p style="color:var(--text-soft);font-size:14px;margin-bottom:16px;">
+                    <strong>Staff:</strong> <span id="resetStaffName">—</span><br />
+                    <strong>Current Device:</strong> <span id="resetCurrentDevice">—</span>
+                </p>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-ghost" onclick="closeModal('resetDeviceModal')">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="confirmResetDevice">🔄 Reset Device</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== TOAST ===== -->
+    <div class="toast" id="toast">
+        <span class="toast-icon" id="toastIcon">✅</span>
+        <span class="toast-message" id="toastMessage">Success!</span>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+    <script src="js/staff.js"></script>
+</body>
+</html>

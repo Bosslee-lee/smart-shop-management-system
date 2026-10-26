@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>ShopFlow — POS &amp; Inventory for Every Shop</title>
+    <meta name="description" content="ShopFlow is a point-of-sale and inventory app for shop owners. Manage your shop whether you're a solo owner or have a team of staff.">
+    
+    <!-- ===== SECURITY META TAGS ===== -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="color-scheme" content="light dark">
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1E3A8A" id="themeColorMeta">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ===== ROOT VARIABLES ===== */
+        :root {
+            --blue: #1E3A8A;
+            --blue-light: #2E4FB0;
+            --green: #10B981;
+            --bg: #F9FAFB;
+            --bg-card: #FFFFFF;
+            --text: #1F2937;
+            --text-soft: #5B6472;
+            --red: #EF4444;
+            --amber: #F59E0B;
+            --border: rgba(31, 41, 55, 0.09);
+            --radius: 12px;
+            --radius-lg: 16px;
+            --shadow: 0 2px 10px rgba(17, 24, 39, 0.06);
+            --shadow-lg: 0 20px 50px rgba(17, 24, 39, 0.10);
+            --transition: 0.3s ease;
+        }
+
+        [data-theme="dark"] {
+            --bg: #111827;
+            --bg-card: #1E293B;
+            --text: #F9FAFB;
+            --text-soft: #9AA5B4;
+            --border: rgba(249, 250, 251, 0.09);
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        /* ===== RESET ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; font-size: 16px; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            transition: background 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, .brand { font-family: 'Poppins', sans-serif; }
+        .mono { font-family: 'IBM Plex Mono', monospace; }
+        a { color: inherit; text-decoration: none; }
+        .wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) { html { font-size: 14px; } }
+        @media (min-width: 481px) and (max-width: 768px) { html { font-size: 15px; } }
+        @media (min-width: 769px) and (max-width: 1024px) { html { font-size: 16px; } }
+        @media (min-width: 1025px) { html { font-size: 17px; } }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+        }
+
+        /* ===== NAV ===== */
+        nav {
+            position: sticky; top: 0; z-index: 50;
+            background: color-mix(in srgb, var(--bg) 88%, transparent);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+        }
+        nav .wrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 72px;
+            gap: 12px;
+        }
+
+        .brand {
+            font-weight: 800;
+            font-size: clamp(18px, 4vw, 22px);
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        .brand .dot {
+            width: 9px; height: 9px; border-radius: 50%;
+            background: var(--green);
+            display: inline-block;
+        }
+        .brand .for-badge {
+            font-size: 9px;
+            background: var(--blue);
+            color: white;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-left: 4px;
+            letter-spacing: 0.3px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: clamp(16px, 3vw, 32px);
+            font-size: clamp(13px, 1.2vw, 14px);
+            font-weight: 500;
+            color: var(--text-soft);
+        }
+        .nav-links a:hover { color: var(--text); }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: clamp(8px, 1.5vw, 12px);
+            flex-shrink: 0;
+        }
+
+        .theme-toggle {
+            width: 38px; height: 38px; border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: background 0.2s;
+            flex-shrink: 0;
+            min-width: 38px; min-height: 38px;
+        }
+        .theme-toggle:hover { background: var(--border); }
+
+        .btn {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: clamp(13px, 1.2vw, 14px);
+            padding: clamp(10px, 1.5vw, 11px) clamp(16px, 2.5vw, 20px);
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            white-space: nowrap;
+        }
+        .btn:hover { transform: translateY(-1px); }
+        .btn:active { transform: scale(0.98); }
+
+        .btn-primary {
+            background: var(--blue);
+            color: white;
+            box-shadow: 0 4px 14px rgba(30, 58, 138, 0.28);
+        }
+        .btn-primary:hover { box-shadow: 0 6px 20px rgba(30, 58, 138, 0.35); }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        .btn-ghost:hover { background: var(--border); }
+
+        .btn-green {
+            background: var(--green);
+            color: white;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.28);
+        }
+        .btn-green:hover { box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35); }
+
+        .btn-gold {
+            background: linear-gradient(135deg, #F59E0B, #D97706);
+            color: white;
+            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+        }
+        .btn-gold:hover { box-shadow: 0 6px 20px rgba(245, 158, 11, 0.45); transform: translateY(-2px); }
+
+        @media (max-width: 860px) { .nav-links { display: none; } }
+        @media (max-width: 480px) {
+            nav .wrap { height: 60px; padding: 0 12px; }
+            .brand { font-size: 16px; }
+            .btn { padding: 8px 12px; font-size: 12px; }
+            .theme-toggle { width: 34px; height: 34px; font-size: 14px; min-width: 34px; min-height: 34px; }
+            .brand .for-badge { font-size: 7px; padding: 1px 6px; }
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            padding: clamp(50px, 10vw, 90px) 0 clamp(40px, 6vw, 70px);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(30, 58, 138, 0.06), transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero .wrap {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: clamp(30px, 5vw, 60px);
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        @media (max-width: 900px) { .hero .wrap { grid-template-columns: 1fr; gap: 32px; } }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: clamp(12px, 1.2vw, 13px);
+            font-weight: 600;
+            color: var(--green);
+            background: rgba(16, 185, 129, 0.1);
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin-bottom: clamp(12px, 2vw, 18px);
+            flex-wrap: wrap;
+        }
+        .hero-badge .new-tag {
+            background: var(--red);
+            color: white;
+            font-size: 10px;
+            padding: 1px 10px;
+            border-radius: 20px;
+            animation: pulseNew 2s ease-in-out infinite;
+        }
+        @keyframes pulseNew {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .hero h1 {
+            font-size: clamp(32px, 5.5vw, 54px);
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            font-weight: 900;
+            margin-bottom: clamp(12px, 2vw, 20px);
+        }
+        .hero h1 span { color: var(--blue); }
+        [data-theme="dark"] .hero h1 span { color: #7C9AF0; }
+
+        .hero p.lead {
+            font-size: clamp(16px, 1.6vw, 19px);
+            line-height: 1.6;
+            color: var(--text-soft);
+            max-width: 540px;
+            margin-bottom: clamp(20px, 3vw, 32px);
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: clamp(10px, 2vw, 14px);
+            flex-wrap: wrap;
+        }
+        .hero-ctas .btn { padding: clamp(12px, 1.8vw, 14px) clamp(24px, 3vw, 32px); font-size: clamp(14px, 1.3vw, 16px); }
+
+        .trust-row {
+            display: flex;
+            gap: clamp(16px, 2.5vw, 28px);
+            margin-top: clamp(24px, 3vw, 36px);
+            flex-wrap: wrap;
+        }
+        .trust-row div {
+            font-size: clamp(13px, 1.1vw, 14px);
+            color: var(--text-soft);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .trust-row b { color: var(--text); font-weight: 700; }
+
+        .trial-badge-hero {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.12);
+            padding: 8px 16px;
+            border-radius: 30px;
+            margin-top: 16px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--green);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+        .trial-badge-hero span { font-size: 18px; }
+
+        /* ===== HERO CARD ===== */
+        .hero-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            max-width: 480px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        .hero-card .card-header {
+            background: var(--blue);
+            color: white;
+            padding: 14px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .hero-card .card-header .shop-name { font-weight: 700; font-size: 14px; }
+        .hero-card .card-header .live-badge {
+            font-size: 10px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255,255,255,0.15);
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+        .hero-card .card-header .live-badge .dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: #4ADE80;
+            animation: pulse 1.4s infinite;
+        }
+        @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.75); } }
+
+        .hero-card .card-body {
+            padding: 18px 20px;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .hero-card .card-body .demo-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed var(--border);
+        }
+        .hero-card .card-body .demo-item:last-child { border-bottom: none; }
+        .hero-card .card-body .demo-item .item-name { font-weight: 600; font-size: 13px; }
+        .hero-card .card-body .demo-item .item-price { font-weight: 700; font-size: 14px; font-family: monospace; }
+        .hero-card .card-body .demo-item .item-tag {
+            font-size: 9px;
+            font-weight: 700;
+            padding: 1px 8px;
+            border-radius: 20px;
+        }
+        .hero-card .card-body .demo-item .item-tag.mpesa { background: rgba(16,185,129,0.12); color: var(--green); }
+        .hero-card .card-body .demo-item .item-tag.cash { background: rgba(30,58,138,0.1); color: var(--blue); }
+
+        .hero-card .card-footer {
+            padding: 12px 20px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            background: color-mix(in srgb, var(--bg) 40%, var(--bg-card));
+        }
+        .hero-card .card-footer .total-label { font-size: 12px; color: var(--text-soft); }
+        .hero-card .card-footer .total-value { font-size: 18px; font-weight: 700; color: var(--green); }
+
+        /* ===== FEATURES ===== */
+        .section { padding: clamp(50px, 8vw, 90px) 0; }
+        .section-head {
+            text-align: center;
+            max-width: 640px;
+            margin: 0 auto clamp(30px, 5vw, 50px);
+        }
+        .section-head .eyebrow {
+            display: inline-block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--green);
+            background: rgba(16,185,129,0.1);
+            padding: 4px 16px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+        }
+        .section-head h2 {
+            font-size: clamp(26px, 4vw, 38px);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+        }
+        .section-head p {
+            color: var(--text-soft);
+            font-size: clamp(15px, 1.4vw, 17px);
+            line-height: 1.6;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: clamp(16px, 2vw, 24px);
+        }
+        @media (max-width: 900px) { .features-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 600px) { .features-grid { grid-template-columns: 1fr; } }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: clamp(20px, 2.5vw, 28px);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-align: center;
+        }
+        .feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+        .feature-card .icon { font-size: 36px; margin-bottom: 12px; display: block; }
+        .feature-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+        .feature-card p { font-size: 14px; color: var(--text-soft); line-height: 1.6; }
+
+        /* ===== DUAL OPTIONS ===== */
+        .dual-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 20px;
+        }
+        @media (max-width: 700px) { .dual-options { grid-template-columns: 1fr; } }
+
+        .option-card {
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 30px 28px;
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .option-card:hover { border-color: var(--blue); transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+        .option-card .option-icon { font-size: 48px; display: block; margin-bottom: 12px; }
+        .option-card h3 { font-size: 22px; font-weight: 800; font-family: 'Poppins', sans-serif; }
+        .option-card p { color: var(--text-soft); font-size: 15px; line-height: 1.6; margin: 8px 0 16px; }
+        .option-card .option-badge {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 14px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+        }
+        .option-card .option-badge.solo { background: rgba(245,158,11,0.15); color: var(--amber); }
+        .option-card .option-badge.team { background: rgba(30,58,138,0.12); color: var(--blue); }
+
+        .option-card .btn { width: 100%; justify-content: center; }
+
+        /* ===== SOLO SECTION ===== */
+        .solo-section {
+            background: linear-gradient(135deg, var(--blue), #152a63);
+            color: white;
+            border-radius: 20px;
+            padding: clamp(40px, 6vw, 60px) clamp(28px, 5vw, 48px);
+            position: relative;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        [data-theme="dark"] .solo-section {
+            background: linear-gradient(135deg, #1E3A8A, #0f1f44);
+        }
+        .solo-section::after {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -10%;
+            width: 400px; height: 400px; border-radius: 50%;
+            background: rgba(16,185,129,0.08);
+        }
+        .solo-section .solo-inner {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 30px;
+            align-items: center;
+        }
+        @media (max-width: 768px) { .solo-section .solo-inner { grid-template-columns: 1fr; text-align: center; } }
+
+        .solo-section h2 {
+            font-size: clamp(24px, 3.5vw, 34px);
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        .solo-section p {
+            opacity: 0.85;
+            font-size: clamp(15px, 1.4vw, 17px);
+            line-height: 1.6;
+            max-width: 500px;
+        }
+        @media (max-width: 768px) { .solo-section p { max-width: 100%; } }
+
+        .solo-section .solo-benefits {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 16px;
+        }
+        @media (max-width: 768px) { .solo-section .solo-benefits { justify-content: center; } }
+        .solo-section .solo-benefits .benefit {
+            background: rgba(255,255,255,0.1);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .solo-section .solo-cta { text-align: right; }
+        @media (max-width: 768px) { .solo-section .solo-cta { text-align: center; } }
+        .solo-section .solo-cta .btn { padding: 14px 32px; font-size: 16px; }
+
+        /* ===== TESTIMONIAL ===== */
+        .testimonial {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 28px 32px;
+            margin-top: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+        .testimonial .quote {
+            font-size: 18px;
+            font-style: italic;
+            color: var(--text-soft);
+            line-height: 1.7;
+            max-width: 600px;
+            margin: 0 auto 8px;
+        }
+        .testimonial .author {
+            font-weight: 700;
+            font-size: 15px;
+        }
+        .testimonial .author span {
+            color: var(--text-soft);
+            font-weight: 400;
+            font-size: 13px;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: clamp(30px, 4vw, 48px) 0 clamp(20px, 3vw, 30px);
+        }
+        .footer-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .footer-row .brand { font-size: clamp(16px, 1.6vw, 17px); }
+        footer .copy {
+            font-size: clamp(12px, 1vw, 13px);
+            color: var(--text-soft);
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .skip-link {
+            position: absolute; left: -999px; top: 0;
+        }
+        .skip-link:focus {
+            left: 12px; top: 12px;
+            background: var(--blue); color: white;
+            padding: 10px 16px; border-radius: 8px; z-index: 100;
+        }
+        :focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+
+        @media (max-width: 360px) {
+            .wrap { padding: 0 12px; }
+            .hero h1 { font-size: 22px; }
+            .btn { font-size: 11px; padding: 6px 10px; }
+        }
+        @media print {
+            .theme-toggle, .nav-actions .btn { display: none !important; }
+            body { background: white !important; color: black !important; }
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    <!-- ===== NAVIGATION ===== -->
+    <nav>
+        <div class="wrap">
+            <a href="#main" class="brand">
+                <span class="dot"></span>
+                ShopFlow
+                <span class="for-badge">FOR EVERY SHOP</span>
+            </a>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#options">For You</a>
+                <a href="#pricing">Pricing</a>
+            </div>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+                <a href="pages/login.html" class="btn btn-ghost" id="loginBtn">Log in</a>
+                <a href="pages/register.html" class="btn btn-gold" id="registerBtn">Start Free Trial</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main id="main">
+
+        <!-- HERO -->
+        <section class="hero">
+            <div class="wrap">
+                <div>
+                    <div class="hero-badge">
+                        🚀 Launch your shop in minutes
+                        <span class="new-tag">NEW</span>
+                    </div>
+                    <h1>Manage your shop like a pro — <span>whether you're solo or have a team</span></h1>
+                    <p class="lead">ShopFlow is the simple way to track inventory, record sales, and grow your business. Perfect for solo owners and shops with staff.</p>
+
+                    <div class="hero-ctas">
+                        <a href="pages/register.html" class="btn btn-gold">🚀 Start 14-Day Free Trial</a>
+                        <a href="#features" class="btn btn-ghost">Learn More</a>
+                    </div>
+
+                    <div class="trial-badge-hero">
+                        <span>⏳</span> 14-day free trial • No credit card required • Cancel anytime
+                    </div>
+
+                    <div class="trust-row">
+                        <div><b>📱</b> Works on any device</div>
+                        <div><b>📶</b> Offline mode</div>
+                        <div><b>💳</b> M-Pesa + Cash</div>
+                        <div><b>🔒</b> 100% secure</div>
+                    </div>
+                </div>
+
+                <div class="hero-card">
+                    <div class="card-header">
+                        <span class="shop-name">🌸 Amani Perfumes</span>
+                        <span class="live-badge"><span class="dot"></span> LIVE</span>
+                    </div>
+                    <div class="card-body" id="demoBody">
+                        <div class="demo-item">
+                            <span class="item-name">Chanel No. 5 (30ml)</span>
+                            <span><span class="item-price">KSh 8,500</span> <span class="item-tag mpesa">M-PESA</span></span>
+                        </div>
+                        <div class="demo-item">
+                            <span class="item-name">Dior Sauvage (50ml)</span>
+                            <span><span class="item-price">KSh 7,200</span> <span class="item-tag cash">CASH</span></span>
+                        </div>
+                        <div class="demo-item">
+                            <span class="item-name">Black Opium (30ml)</span>
+                            <span><span class="item-price">KSh 6,900</span> <span class="item-tag mpesa">M-PESA</span></span>
+                        </div>
+                        <div class="demo-item">
+                            <span class="item-name">Coco Mademoiselle</span>
+                            <span><span class="item-price">KSh 8,100</span> <span class="item-tag mpesa">M-PESA</span></span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span class="total-label">Today's Total</span>
+                        <span class="total-value">KSh 30,700</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURES -->
+        <section class="section" id="features">
+            <div class="wrap">
+                <div class="section-head">
+                    <span class="eyebrow">Everything you need</span>
+                    <h2>Built for every shop owner</h2>
+                    <p>Whether you're running your shop alone or managing a team, ShopFlow gives you the tools you need.</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <span class="icon">📦</span>
+                        <h3>Inventory Management</h3>
+                        <p>Add products, track stock, get low-stock alerts — all in one place.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">💰</span>
+                        <h3>Smart Sales Tracking</h3>
+                        <p>Record every sale with M-Pesa or cash. Know exactly what you're earning.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">📊</span>
+                        <h3>Real-Time Reports</h3>
+                        <p>See your daily, weekly, and monthly sales at a glance. Know what's working.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">📱</span>
+                        <h3>Works Anywhere</h3>
+                        <p>Use it on your phone, tablet, or computer. Works offline too.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">🧾</span>
+                        <h3>Instant Receipts</h3>
+                        <p>Generate and print receipts for your customers in seconds.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">👥</span>
+                        <h3>Staff Management</h3>
+                        <p>Add staff members, track their sales, and manage permissions.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DUAL OPTIONS -->
+        <section class="section" id="options" style="padding-top:0;">
+            <div class="wrap">
+                <div class="section-head">
+                    <span class="eyebrow">Choose Your Path</span>
+                    <h2>Which shop owner are you?</h2>
+                    <p>ShopFlow adapts to your business — whether you're a solo owner or managing a team.</p>
+                </div>
+
+                <div class="dual-options">
+                    <!-- SOLO OWNER -->
+                    <div class="option-card">
+                        <span class="option-badge solo">🌟 SOLO OWNER</span>
+                        <span class="option-icon">👩‍💼</span>
+                        <h3>I Run It Alone</h3>
+                        <p>You're the owner, manager, and staff — all in one. Keep it simple and focus on what matters.</p>
+                        <ul style="list-style:none;text-align:left;padding:0 10px;margin-bottom:16px;font-size:14px;color:var(--text-soft);">
+                            <li style="padding:4px 0;">✅ Simple dashboard</li>
+                            <li style="padding:4px 0;">✅ No staff management needed</li>
+                            <li style="padding:4px 0;">✅ Quick sales recording</li>
+                            <li style="padding:4px 0;">✅ Full control of your shop</li>
+                        </ul>
+                        <a href="pages/register.html" class="btn btn-gold">Start Solo Free Trial →</a>
+                    </div>
+
+                    <!-- OWNER WITH STAFF -->
+                    <div class="option-card">
+                        <span class="option-badge team">👥 WITH STAFF</span>
+                        <span class="option-icon">👔</span>
+                        <h3>I Have Staff</h3>
+                        <p>You manage a team of staff who help run your shop. You need control and visibility.</p>
+                        <ul style="list-style:none;text-align:left;padding:0 10px;margin-bottom:16px;font-size:14px;color:var(--text-soft);">
+                            <li style="padding:4px 0;">✅ Add and manage staff</li>
+                            <li style="padding:4px 0;">✅ Track staff performance</li>
+                            <li style="padding:4px 0;">✅ Real-time sales monitoring</li>
+                            <li style="padding:4px 0;">✅ Staff POS access</li>
+                        </ul>
+                        <a href="pages/register.html" class="btn btn-primary">Start Team Free Trial →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOLO SECTION -->
+        <section class="section" id="solo" style="padding-top:0;">
+            <div class="wrap">
+                <div class="solo-section">
+                    <div class="solo-inner">
+                        <div>
+                            <h2>👩‍💼 Perfect for every shop owner</h2>
+                            <p>Whether you're a solo owner running your shop alone or you have a team of staff, ShopFlow gives you the tools you need to succeed.</p>
+                            <div class="solo-benefits">
+                                <span class="benefit">✅ Solo or team — we've got you</span>
+                                <span class="benefit">✅ Simple dashboard</span>
+                                <span class="benefit">✅ 14-day free trial</span>
+                                <span class="benefit">✅ Cancel anytime</span>
+                            </div>
+                        </div>
+                        <div class="solo-cta">
+                            <a href="pages/register.html" class="btn btn-gold">🚀 Start Free Trial</a>
+                            <p style="font-size:13px;opacity:0.7;margin-top:10px;">No credit card required</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial -->
+                <div class="testimonial">
+                    <p class="quote">"I started using ShopFlow alone, and now I have 3 staff members. It grew with my business perfectly!"</p>
+                    <div class="author">— Grace Muthoni <span>| Shop Owner, Nairobi</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRICING / CTA -->
+        <section class="section" id="pricing" style="padding-top:0;">
+            <div class="wrap">
+                <div class="section-head">
+                    <span class="eyebrow">Get Started Today</span>
+                    <h2>Start your 14-day free trial</h2>
+                    <p>No commitment. No credit card required. Cancel anytime.</p>
+                </div>
+                <div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-top:10px;">
+                    <a href="pages/register.html" class="btn btn-gold" style="padding:14px 36px;font-size:17px;">🚀 Start Free Trial</a>
+                    <a href="pages/login.html" class="btn btn-ghost" style="padding:14px 36px;font-size:17px;">Already have an account? Log in</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="wrap">
+            <div class="footer-row">
+                <a href="#main" class="brand"><span class="dot"></span>ShopFlow <span style="font-size:12px;font-weight:400;opacity:0.6;">For Every Shop</span></a>
+                <div style="display:flex; gap:14px; flex-wrap:wrap;">
+                    <a href="pages/login.html" class="btn btn-ghost" id="loginBtn2" style="font-size:13px;">Log in</a>
+                    <a href="pages/register.html" class="btn btn-gold" id="registerBtn3" style="font-size:13px;padding:8px 18px;">Free Trial</a>
+                </div>
+            </div>
+            <p class="copy">© 2026 ShopFlow. Built for shop owners in Kenya. 🇰🇪</p>
+        </div>
+    </footer>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script src="js/services/api.js"></script>
+    <script src="js/services/auth.js"></script>
+    <script src="js/services/theme.js"></script>
+    <script src="js/services/realtime.js"></script>
+    <script src="js/services/offline.js"></script>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // ============================================
+            // THEME TOGGLE
+            // ============================================
+            function initThemeToggle() {
+                const btn = document.getElementById('themeToggle');
+                if (!btn) return;
+
+                let savedTheme = localStorage.getItem('shopflow_theme');
+                if (!savedTheme || (savedTheme !== 'light' && savedTheme !== 'dark')) {
+                    savedTheme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                }
+
+                function applyTheme(theme) {
+                    if (theme === 'dark') {
+                        document.body.setAttribute('data-theme', 'dark');
+                        btn.textContent = '☀️';
+                        btn.setAttribute('aria-label', 'Switch to light mode');
+                        const meta = document.querySelector('meta[name="theme-color"]');
+                        if (meta) meta.content = '#111827';
+                    } else {
+                        document.body.removeAttribute('data-theme');
+                        btn.textContent = '🌙';
+                        btn.setAttribute('aria-label', 'Switch to dark mode');
+                        const meta = document.querySelector('meta[name="theme-color"]');
+                        if (meta) meta.content = '#1E3A8A';
+                    }
+                    localStorage.setItem('shopflow_theme', theme);
+                }
+
+                function toggleTheme() {
+                    const isDark = document.body.getAttribute('data-theme') === 'dark';
+                    const newTheme = isDark ? 'light' : 'dark';
+                    applyTheme(newTheme);
+                }
+
+                applyTheme(savedTheme);
+
+                const newBtn = btn.cloneNode(true);
+                btn.parentNode.replaceChild(newBtn, btn);
+                newBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    toggleTheme();
+                });
+            }
+
+            // ============================================
+            // CHECK LOGIN STATUS
+            // ============================================
+            function checkAuthStatus() {
+                try {
+                    if (typeof authService !== 'undefined' && authService.isLoggedIn()) {
+                        const role = authService.getRole();
+                        const loginBtns = document.querySelectorAll('#loginBtn, #loginBtn2');
+                        const registerBtns = document.querySelectorAll('#registerBtn, #registerBtn3');
+                        
+                        if (role === 'owner') {
+                            loginBtns.forEach(btn => {
+                                btn.textContent = '📊 Dashboard';
+                                btn.href = 'pages/dashboard.html';
+                                btn.className = 'btn btn-primary';
+                            });
+                            registerBtns.forEach(btn => {
+                                btn.textContent = '📊 Dashboard';
+                                btn.href = 'pages/dashboard.html';
+                                btn.className = 'btn btn-primary';
+                            });
+                        } else if (role === 'staff') {
+                            loginBtns.forEach(btn => {
+                                btn.textContent = '🛒 POS';
+                                btn.href = 'pages/pos.html';
+                                btn.className = 'btn btn-primary';
+                            });
+                            registerBtns.forEach(btn => {
+                                btn.textContent = '🛒 POS';
+                                btn.href = 'pages/pos.html';
+                                btn.className = 'btn btn-primary';
+                            });
+                        }
+                    }
+                } catch (e) {
+                    console.warn('Auth check error:', e);
+                }
+            }
+
+            // ============================================
+            // DEMO TICKER
+            // ============================================
+            function initDemoTicker() {
+                const demos = [
+                    { items: [
+                        { name: 'Chanel No. 5 (30ml)', price: 8500, method: 'mpesa' },
+                        { name: 'Dior Sauvage (50ml)', price: 7200, method: 'cash' },
+                        { name: 'Black Opium (30ml)', price: 6900, method: 'mpesa' },
+                        { name: 'Coco Mademoiselle', price: 8100, method: 'mpesa' },
+                    ]},
+                    { items: [
+                        { name: 'Samsung A15 128GB', price: 18500, method: 'mpesa' },
+                        { name: 'JBL Speaker', price: 3200, method: 'cash' },
+                        { name: 'Type-C Charger', price: 950, method: 'mpesa' },
+                        { name: 'Power Bank 10000mAh', price: 2400, method: 'mpesa' },
+                    ]},
+                    { items: [
+                        { name: 'Pembe Flour 2kg', price: 220, method: 'cash' },
+                        { name: 'Cooking Oil 2L', price: 480, method: 'mpesa' },
+                        { name: 'Weetabix Cereal', price: 390, method: 'mpesa' },
+                        { name: 'Omo Detergent 1kg', price: 310, method: 'cash' },
+                    ]},
+                ];
+
+                const body = document.getElementById('demoBody');
+                if (!body) return;
+
+                let demoIdx = 0, idx = 0, total = 0;
+                const MAX_ITEMS = 4;
+
+                function updateDemo() {
+                    const demo = demos[demoIdx % demos.length];
+                    const items = demo.items;
+                    const s = items[idx % items.length];
+                    idx++;
+                    total += s.price;
+
+                    const line = document.createElement('div');
+                    line.className = 'demo-item';
+                    const methodClass = s.method === 'mpesa' ? 'mpesa' : 'cash';
+                    const methodLabel = s.method === 'mpesa' ? 'M-PESA' : 'CASH';
+                    line.innerHTML = `
+                        <span class="item-name">${s.name}</span>
+                        <span><span class="item-price">KSh ${s.price.toLocaleString()}</span> <span class="item-tag ${methodClass}">${methodLabel}</span></span>
+                    `;
+                    body.appendChild(line);
+
+                    while (body.children.length > MAX_ITEMS) {
+                        body.removeChild(body.firstChild);
+                    }
+
+                    const footer = document.querySelector('.hero-card .card-footer .total-value');
+                    if (footer) footer.textContent = 'KSh ' + total.toLocaleString();
+
+                    if (idx % items.length === 0) {
+                        demoIdx++;
+                        total = 0;
+                        setTimeout(() => { body.innerHTML = ''; }, 1500);
+                    }
+                }
+
+                for (let i = 0; i < 4; i++) updateDemo();
+                setInterval(updateDemo, 2500);
+            }
+
+            // ============================================
+            // INIT
+            // ============================================
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', function() {
+                    initThemeToggle();
+                    checkAuthStatus();
+                    initDemoTicker();
+                });
+            } else {
+                initThemeToggle();
+                checkAuthStatus();
+                initDemoTicker();
+            }
+
+            console.log('🚀 ShopFlow - For Every Shop Owner!');
+            console.log('💡 Solo owner or team - we\'ve got you covered');
+            console.log('💡 14-day free trial - No credit card required');
+        })();
+    </script>
+</body>
+</html>

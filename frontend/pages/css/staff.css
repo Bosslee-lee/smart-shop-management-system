@@ -1,0 +1,476 @@
+/* ===== STAFF PAGE STYLES ===== */
+
+/* Security Info */
+.security-info {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 800px) {
+    .security-info {
+        grid-template-columns: 1fr;
+    }
+}
+
+.security-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.security-item .security-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.security-item strong {
+    font-size: 14px;
+    display: block;
+}
+
+.security-item p {
+    font-size: 12px;
+    color: var(--text-soft);
+    margin-top: 2px;
+}
+
+/* Staff Limit Banner */
+.staff-limit-banner {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.staff-limit-banner .limit-info {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.staff-limit-banner .limit-icon {
+    font-size: 28px;
+}
+
+.staff-limit-banner .limit-title {
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.staff-limit-banner .limit-details {
+    font-size: 14px;
+    color: var(--text-soft);
+}
+
+.staff-limit-banner .limit-details span {
+    font-weight: 700;
+    color: var(--text);
+}
+
+.staff-limit-banner .limit-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.staff-limit-banner .trial-indicator {
+    font-size: 13px;
+    color: var(--text-soft);
+    padding: 4px 12px;
+    background: var(--bg);
+    border-radius: 20px;
+}
+
+.staff-limit-banner .trial-indicator span {
+    font-weight: 700;
+    color: var(--amber);
+}
+
+/* Staff Stats */
+.staff-stats {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+@media (max-width: 900px) {
+    .staff-stats {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .staff-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 400px) {
+    .staff-stats {
+        grid-template-columns: 1fr;
+    }
+}
+
+.staff-stats .stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    text-align: center;
+}
+
+.staff-stats .stat-card .stat-number {
+    font-size: 24px;
+    font-weight: 700;
+    display: block;
+}
+
+.staff-stats .stat-card .stat-number.active {
+    color: var(--green);
+}
+
+.staff-stats .stat-card .stat-number.blocked {
+    color: var(--red);
+}
+
+.staff-stats .stat-card .stat-label {
+    font-size: 13px;
+    color: var(--text-soft);
+}
+
+/* Staff Actions */
+.staff-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.staff-actions .staff-limit-notice {
+    font-size: 13px;
+    color: var(--text-soft);
+}
+
+.staff-actions .staff-limit-notice.warning {
+    color: var(--amber);
+}
+
+.staff-actions .staff-limit-notice.danger {
+    color: var(--red);
+}
+
+/* Security Notice in Modal */
+.security-notice {
+    background: color-mix(in srgb, var(--blue) 8%, var(--bg));
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 12px 0;
+    border: 1px solid color-mix(in srgb, var(--blue) 20%, transparent);
+}
+
+.security-notice span {
+    font-size: 20px;
+}
+
+.security-notice p {
+    font-size: 13px;
+    color: var(--text-soft);
+}
+
+/* Staff List */
+.staff-list-container {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+}
+
+.staff-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.staff-list-header h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+}
+
+.staff-filters {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.staff-filters .filter-select {
+    padding: 8px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 13px;
+    min-width: 120px;
+}
+
+.staff-filters .search-input {
+    padding: 8px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 13px;
+    min-width: 180px;
+}
+
+.staff-filters .search-input:focus,
+.staff-filters .filter-select:focus {
+    outline: none;
+    border-color: var(--blue);
+}
+
+/* Staff Grid */
+.staff-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+}
+
+.empty-staff {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-soft);
+}
+
+.empty-staff .icon {
+    font-size: 48px;
+    display: block;
+    margin-bottom: 12px;
+}
+
+.empty-staff h3 {
+    font-size: 18px;
+    color: var(--text);
+    margin-bottom: 4px;
+}
+
+/* Staff Card */
+.staff-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.staff-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.staff-card .staff-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--blue);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.staff-card .staff-avatar.blocked {
+    background: var(--red);
+}
+
+.staff-card .staff-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.staff-card .staff-info .name {
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.staff-card .staff-info .phone {
+    font-size: 13px;
+    color: var(--text-soft);
+}
+
+.staff-card .staff-info .device-status {
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 2px;
+}
+
+.staff-card .staff-info .device-status.registered {
+    color: var(--green);
+}
+
+.staff-card .staff-info .device-status.unregistered {
+    color: var(--amber);
+}
+
+.staff-card .staff-status {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 12px;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.staff-card .staff-status.active {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--green);
+}
+
+.staff-card .staff-status.blocked {
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--red);
+}
+
+.staff-card .staff-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.staff-card .staff-actions .btn {
+    padding: 4px 10px;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+/* Staff Details Modal */
+.staff-details-modal .modal-content {
+    max-width: 450px;
+}
+
+.staff-details-content {
+    padding: 8px 0;
+}
+
+.staff-details-content .detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.staff-details-content .detail-row:last-child {
+    border-bottom: none;
+}
+
+.staff-details-content .detail-row .label {
+    color: var(--text-soft);
+    font-size: 14px;
+}
+
+.staff-details-content .detail-row .value {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.staff-details-content .detail-row .value.active {
+    color: var(--green);
+}
+
+.staff-details-content .detail-row .value.blocked {
+    color: var(--red);
+}
+
+.staff-details-content .detail-row .value.device-registered {
+    color: var(--green);
+}
+
+.staff-details-content .detail-row .value.device-unregistered {
+    color: var(--amber);
+}
+
+/* Reset Device Modal */
+.reset-device-content {
+    padding: 8px 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .staff-limit-banner {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+    
+    .staff-limit-banner .limit-info {
+        justify-content: center;
+    }
+    
+    .staff-limit-banner .limit-actions {
+        justify-content: center;
+    }
+    
+    .staff-list-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .staff-filters {
+        flex-direction: column;
+    }
+    
+    .staff-filters .filter-select,
+    .staff-filters .search-input {
+        width: 100%;
+    }
+    
+    .staff-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .staff-stats {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .staff-card {
+        flex-wrap: wrap;
+        justify-content: center;
+        text-align: center;
+    }
+    
+    .staff-card .staff-actions {
+        flex-direction: row;
+        width: 100%;
+        justify-content: center;
+    }
+}

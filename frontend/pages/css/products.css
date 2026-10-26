@@ -1,0 +1,649 @@
+/* ===== PRODUCT PAGE SPECIFIC STYLES ===== */
+
+/* Product Stats */
+.product-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+@media (max-width: 700px) {
+    .product-stats { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 400px) {
+    .product-stats { grid-template-columns: 1fr; }
+}
+
+.product-stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    text-align: center;
+}
+
+.product-stat-card .number {
+    font-size: 28px;
+    font-weight: 700;
+    display: block;
+}
+
+.product-stat-card .number.low-stock-number {
+    color: var(--amber);
+}
+
+.product-stat-card .number.out-of-stock-number {
+    color: var(--red);
+}
+
+.product-stat-card .number.in-stock-number {
+    color: var(--green);
+}
+
+.product-stat-card .label {
+    font-size: 13px;
+    color: var(--text-soft);
+}
+
+/* Quick Add Bar */
+.quick-add-bar {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.quick-add-inputs {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.quick-add-inputs .search-input {
+    flex: 2;
+    min-width: 180px;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+}
+
+.quick-add-inputs .search-input:focus {
+    outline: none;
+    border-color: var(--blue);
+}
+
+.quick-add-inputs .quick-price {
+    flex: 0.8;
+    min-width: 100px;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+}
+
+.quick-add-inputs .quick-stock {
+    flex: 0.8;
+    min-width: 100px;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+}
+
+.quick-add-inputs .quick-price:focus,
+.quick-add-inputs .quick-stock:focus {
+    outline: none;
+    border-color: var(--blue);
+}
+
+.quick-add-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Filters */
+.product-filters {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.search-input {
+    flex: 1;
+    min-width: 200px;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--blue);
+}
+
+.filter-select {
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    min-width: 140px;
+    cursor: pointer;
+}
+
+/* Product Grid */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+}
+
+@media (max-width: 600px) {
+    .product-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 400px) {
+    .product-grid { grid-template-columns: 1fr; }
+}
+
+/* Product Card */
+.product-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.product-card .product-image {
+    width: 100%;
+    height: 180px;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+}
+
+.product-card .product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.product-card .product-image .no-image {
+    color: var(--text-soft);
+    opacity: 0.3;
+}
+
+.product-card .product-body {
+    padding: 16px;
+}
+
+.product-card .product-name {
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 2px;
+}
+
+.product-card .product-price {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--blue);
+}
+
+.product-card .product-category {
+    font-size: 12px;
+    color: var(--text-soft);
+    background: var(--bg);
+    padding: 2px 10px;
+    border-radius: 20px;
+    display: inline-block;
+    margin: 4px 0;
+}
+
+.product-card .product-stock {
+    font-size: 13px;
+    color: var(--text-soft);
+    margin: 6px 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.product-card .product-stock .stock-badge {
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.product-card .product-stock .stock-badge.in-stock {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--green);
+}
+
+.product-card .product-stock .stock-badge.low-stock {
+    background: rgba(245, 158, 11, 0.15);
+    color: var(--amber);
+    animation: pulseLowStock 2s ease-in-out infinite;
+}
+
+@keyframes pulseLowStock {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+.product-card .product-stock .stock-badge.out-of-stock {
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--red);
+}
+
+.product-card .product-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+}
+
+.product-card .product-actions .btn {
+    flex: 1;
+    justify-content: center;
+    padding: 8px 12px;
+    font-size: 12px;
+    min-width: 60px;
+}
+
+/* Image Upload */
+.image-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.image-preview {
+    width: 120px;
+    height: 120px;
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: border-color var(--transition);
+    background: var(--bg);
+    overflow: hidden;
+}
+
+.image-preview:hover {
+    border-color: var(--blue);
+}
+
+.image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-preview span {
+    font-size: 32px;
+}
+
+.image-preview p {
+    font-size: 12px;
+    color: var(--text-soft);
+}
+
+/* Stock In Modal */
+.stock-info {
+    background: var(--bg);
+    padding: 12px 16px;
+    border-radius: var(--radius);
+    margin: 8px 0;
+}
+
+.stock-info .new-stock {
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--blue);
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-soft);
+    grid-column: 1 / -1;
+}
+
+.empty-state .icon {
+    font-size: 64px;
+    margin-bottom: 16px;
+}
+
+.empty-state h3 {
+    font-size: 20px;
+    margin-bottom: 8px;
+    color: var(--text);
+}
+
+.empty-state p {
+    font-size: 14px;
+}
+
+/* Toast Notification */
+.toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 24px;
+    box-shadow: var(--shadow-lg);
+    z-index: 300;
+    display: none;
+    animation: slideUp 0.3s ease;
+    max-width: 400px;
+}
+
+.toast.show {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.toast.success { border-left: 4px solid var(--green); }
+.toast.error { border-left: 4px solid var(--red); }
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.toast .toast-icon { font-size: 24px; }
+.toast .toast-message { font-size: 14px; font-weight: 500; }
+
+/* Scan Modal */
+.scan-modal .modal-content {
+    max-width: 600px;
+}
+
+.scan-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.scanner-area {
+    position: relative;
+    background: #000;
+    border-radius: var(--radius);
+    overflow: hidden;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.scanner-area video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    min-height: 300px;
+}
+
+.scan-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.scan-frame {
+    width: 200px;
+    height: 200px;
+    border: 3px solid rgba(255, 255, 255, 0.6);
+    border-radius: 12px;
+    box-shadow: 0 0 0 4000px rgba(0, 0, 0, 0.4);
+    animation: scanPulse 2s ease-in-out infinite;
+}
+
+@keyframes scanPulse {
+    0%, 100% { border-color: rgba(255, 255, 255, 0.6); }
+    50% { border-color: var(--green); }
+}
+
+.scan-overlay p {
+    color: white;
+    margin-top: 20px;
+    font-size: 14px;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 8px 16px;
+    border-radius: 20px;
+}
+
+.scan-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.scan-result {
+    background: var(--bg);
+    border-radius: var(--radius);
+    padding: 16px;
+    border: 2px solid var(--green);
+}
+
+.scan-result h4 {
+    color: var(--green);
+    margin-bottom: 8px;
+}
+
+.scan-result-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 20px;
+    margin-bottom: 12px;
+}
+
+.scan-result-details p {
+    font-size: 14px;
+    padding: 4px 0;
+}
+
+.scan-result-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Batch Modal */
+.batch-modal .modal-content {
+    max-width: 700px;
+}
+
+.batch-example {
+    background: var(--bg);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    margin-bottom: 12px;
+    font-size: 13px;
+}
+
+.batch-example pre {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--text);
+    margin-top: 4px;
+    white-space: pre-wrap;
+}
+
+.batch-options {
+    display: flex;
+    gap: 16px;
+    margin: 12px 0;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.batch-options label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.batch-preview {
+    background: var(--bg);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    max-height: 150px;
+    overflow-y: auto;
+    font-size: 13px;
+    margin: 8px 0;
+}
+
+.batch-preview .batch-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+}
+
+.batch-preview .batch-item:last-child {
+    border-bottom: none;
+}
+
+.batch-preview .batch-item .batch-success {
+    color: var(--green);
+}
+
+.batch-preview .batch-item .batch-error {
+    color: var(--red);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .quick-add-inputs {
+        flex-direction: column;
+    }
+    
+    .quick-add-inputs .search-input,
+    .quick-add-inputs .quick-price,
+    .quick-add-inputs .quick-stock {
+        width: 100%;
+        min-width: unset;
+    }
+    
+    .quick-add-actions {
+        flex-direction: column;
+    }
+    
+    .quick-add-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .product-filters {
+        flex-direction: column;
+    }
+    
+    .product-filters .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .scan-result-details {
+        grid-template-columns: 1fr;
+    }
+    
+    .scan-frame {
+        width: 150px;
+        height: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    .quick-add-bar {
+        padding: 12px 14px;
+    }
+    
+    .scanner-area {
+        min-height: 200px;
+    }
+    
+    .scanner-area video {
+        min-height: 200px;
+    }
+    
+    .scan-frame {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .batch-options {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .product-stat-card .number {
+        font-size: 22px;
+    }
+}
+
+/* Touch Friendly */
+@media (pointer: coarse) {
+    .quick-add-inputs input {
+        font-size: 16px !important;
+    }
+    
+    .scan-actions .btn,
+    .scan-result-actions .btn {
+        min-height: 44px;
+        flex: 1;
+        justify-content: center;
+    }
+}

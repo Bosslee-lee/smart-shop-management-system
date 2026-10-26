@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes" />
+    <title>Dashboard — ShopFlow</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- ===== SIDEBAR ===== -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="#" class="brand">
+                    <span class="dot"></span>
+                    <span>ShopFlow</span>
+                </a>
+                <button class="collapse-btn" id="collapseBtn" title="Toggle sidebar">◀</button>
+                <button class="close-sidebar" id="closeSidebar">×</button>
+            </div>
+
+            <!-- Shop Info -->
+            <div class="shop-info" id="shopInfo">
+                <div class="shop-avatar" id="shopAvatar">🏪</div>
+                <div class="shop-details">
+                    <h3 id="shopNameDisplay">My Shop</h3>
+                    <p id="shopOwnerDisplay">Owner</p>
+                    <span class="shop-status">● Active</span>
+                </div>
+            </div>
+
+            <!-- Trial Banner -->
+            <div class="trial-banner-sidebar" id="trialBanner">
+                <span class="trial-icon">⏳</span>
+                <div>
+                    <p class="trial-label">Free Trial</p>
+                    <p class="trial-days" id="trialDays">14 days left</p>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item active" data-tooltip="Overview">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-label">Overview</span>
+                </a>
+                <a href="products.html" class="nav-item" data-tooltip="Products">
+                    <span class="nav-icon">📦</span>
+                    <span class="nav-label">Products</span>
+                </a>
+                <a href="sales.html" class="nav-item" data-tooltip="Sales Reports">
+                    <span class="nav-icon">💰</span>
+                    <span class="nav-label">Sales Reports</span>
+                </a>
+                <a href="staff.html" class="nav-item" data-tooltip="Manage Staff">
+                    <span class="nav-icon">👥</span>
+                    <span class="nav-label">Manage Staff</span>
+                </a>
+                <a href="announcements.html" class="nav-item" data-tooltip="Announcements">
+                    <span class="nav-icon">📢</span>
+                    <span class="nav-label">Announcements</span>
+                </a>
+                <a href="flashsales.html" class="nav-item" data-tooltip="Flash Sales">
+                    <span class="nav-icon">⚡</span>
+                    <span class="nav-label">Flash Sales</span>
+                </a>
+                <a href="subscription.html" class="nav-item" data-tooltip="Subscription">
+                    <span class="nav-icon">💳</span>
+                    <span class="nav-label">Subscription</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="logout-btn" id="logoutBtn">
+                    <span class="logout-icon">🚪</span>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- ===== FLOATING EXPAND BUTTON (appears when sidebar is collapsed) ===== -->
+        <button class="expand-btn" id="expandBtn" title="Expand sidebar">☰</button>
+
+        <!-- ===== MAIN CONTENT ===== -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <!-- Mobile menu toggle -->
+                    <button class="menu-toggle" id="menuToggle">☰</button>
+                    
+                    <!-- Desktop sidebar toggle (hamburger) -->
+                    <button class="sidebar-toggle" id="sidebarToggle">
+                        <span>☰</span>
+                        <span class="toggle-label">Menu</span>
+                    </button>
+                    
+                    <h1 class="page-title" id="pageTitle">📊 Overview</h1>
+                </div>
+                <div class="topbar-actions">
+                    <button class="theme-toggle" id="themeToggle">🌙</button>
+                    <div class="notification-bell">
+                        🔔
+                        <span class="notification-badge">3</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <div class="page-content">
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-info">
+                            <span class="stat-label">Today's Sales</span>
+                            <span class="stat-value" id="todaySales">KSh 0</span>
+                            <span class="stat-change positive">↑ 12%</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📦</div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Products</span>
+                            <span class="stat-value" id="totalProducts">0</span>
+                            <span class="stat-change">+0 this month</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-info">
+                            <span class="stat-label">Staff</span>
+                            <span class="stat-value" id="totalStaff">0</span>
+                            <span class="stat-change" id="staffLimit">Limit: 2</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📈</div>
+                        <div class="stat-info">
+                            <span class="stat-label">Profit/Loss</span>
+                            <span class="stat-value positive" id="profitLoss">+KSh 0</span>
+                            <span class="stat-change positive">↑ This month</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <h3>Quick Actions</h3>
+                    <div class="quick-grid">
+                        <a href="products.html" class="quick-btn">➕ Add Product</a>
+                        <a href="sales.html" class="quick-btn">📊 View Reports</a>
+                        <a href="staff.html" class="quick-btn">👥 Manage Staff</a>
+                        <a href="flashsales.html" class="quick-btn">⚡ Create Flash Sale</a>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="recent-activity">
+                    <h3>Recent Activity</h3>
+                    <div class="activity-list" id="activityList">
+                        <div class="activity-item">
+                            <span class="activity-icon">💰</span>
+                            <div>
+                                <p class="activity-text">Sale: Samsung A15 - KSh 18,500</p>
+                                <span class="activity-time">2 mins ago</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <span class="activity-icon">📦</span>
+                            <div>
+                                <p class="activity-text">New product: Dior Sauvage added</p>
+                                <span class="activity-time">1 hour ago</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <span class="activity-icon">👥</span>
+                            <div>
+                                <p class="activity-text">Staff: Faith logged in</p>
+                                <span class="activity-time">3 hours ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

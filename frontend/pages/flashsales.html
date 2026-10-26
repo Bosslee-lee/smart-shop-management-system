@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes" />
+    <title>Flash Sales — ShopFlow</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="css/flashsales.css" />
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- ===== SIDEBAR ===== -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="#" class="brand">
+                    <span class="dot"></span>
+                    <span>ShopFlow</span>
+                </a>
+                <button class="collapse-btn" id="collapseBtn">◀</button>
+                <button class="close-sidebar" id="closeSidebar">×</button>
+            </div>
+
+            <div class="shop-info" id="shopInfo">
+                <div class="shop-avatar" id="shopAvatar">🏪</div>
+                <div class="shop-details">
+                    <h3 id="shopNameDisplay">My Shop</h3>
+                    <p id="shopOwnerDisplay">Owner</p>
+                    <span class="shop-status">● Active</span>
+                </div>
+            </div>
+
+            <div class="trial-banner-sidebar" id="trialBanner">
+                <span class="trial-icon">⏳</span>
+                <div>
+                    <p class="trial-label">Free Trial</p>
+                    <p class="trial-days" id="trialDays">14 days left</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item"><span class="nav-icon">📊</span><span class="nav-label">Overview</span></a>
+                <a href="products.html" class="nav-item"><span class="nav-icon">📦</span><span class="nav-label">Products</span></a>
+                <a href="sales.html" class="nav-item"><span class="nav-icon">💰</span><span class="nav-label">Sales</span></a>
+                <a href="staff.html" class="nav-item"><span class="nav-icon">👥</span><span class="nav-label">Staff</span></a>
+                <a href="announcements.html" class="nav-item"><span class="nav-icon">📢</span><span class="nav-label">Announcements</span></a>
+                <a href="flashsales.html" class="nav-item active" data-tooltip="Flash Sales"><span class="nav-icon">⚡</span><span class="nav-label">Flash Sales</span></a>
+                <a href="subscription.html" class="nav-item" data-tooltip="Subscription"><span class="nav-icon">💳</span><span class="nav-label">Subscription</span></a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="logout-btn" id="logoutBtn">
+                    <span class="logout-icon">🚪</span>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- ===== FLOATING EXPAND BUTTON ===== -->
+        <button class="expand-btn" id="expandBtn" title="Expand sidebar">☰</button>
+
+        <!-- ===== MAIN CONTENT ===== -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button class="menu-toggle" id="menuToggle">☰</button>
+                    <button class="sidebar-toggle" id="sidebarToggle">
+                        <span>☰</span>
+                        <span class="toggle-label">Menu</span>
+                    </button>
+                    <h1 class="page-title" id="pageTitle">⚡ Flash Sales</h1>
+                </div>
+                <div class="topbar-actions">
+                    <button class="theme-toggle" id="themeToggle">🌙</button>
+                    <div class="notification-bell">
+                        🔔
+                        <span class="notification-badge" id="alertBadge">0</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <div class="page-content">
+                <!-- ===== STATS ===== -->
+                <div class="flash-stats">
+                    <div class="stat-card">
+                        <span class="stat-number" id="activeFlashSales">0</span>
+                        <span class="stat-label">Active Sales</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number" id="totalFlashSales">0</span>
+                        <span class="stat-label">Total Created</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number" id="productsOnSale">0</span>
+                        <span class="stat-label">Products on Sale</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number" id="totalDiscount">0%</span>
+                        <span class="stat-label">Average Discount</span>
+                    </div>
+                </div>
+
+                <!-- ===== QUICK ACTIONS ===== -->
+                <div class="flash-actions">
+                    <button class="btn btn-primary" id="newFlashSaleBtn" onclick="openModal('addFlashSaleModal')">
+                        ⚡ New Flash Sale
+                    </button>
+                    <button class="btn btn-ghost" id="clearSlowStockBtn" onclick="openModal('clearStockModal')">
+                        🏷️ Clear Slow Stock
+                    </button>
+                    <div class="action-filters">
+                        <select id="flashFilter" class="filter-select">
+                            <option value="all">All</option>
+                            <option value="active">Active</option>
+                            <option value="upcoming">Upcoming</option>
+                            <option value="ended">Ended</option>
+                            <option value="paused">Paused</option>
+                        </select>
+                        <input type="text" id="flashSearch" placeholder="🔍 Search flash sales..." class="search-input" />
+                    </div>
+                </div>
+
+                <!-- ===== FLASH SALES LIST ===== -->
+                <div class="flash-sales-container">
+                    <div class="flash-sales-grid" id="flashSalesGrid">
+                        <!-- Rendered by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ===== ADD FLASH SALE MODAL ===== -->
+    <div class="modal" id="addFlashSaleModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>⚡ New Flash Sale</h3>
+                <button class="modal-close" onclick="closeModal('addFlashSaleModal')">×</button>
+            </div>
+            <form id="addFlashSaleForm">
+                <div class="form-group">
+                    <label>Select Product <span class="required">*</span></label>
+                    <select id="flashProduct" required>
+                        <option value="">Select a product...</option>
+                    </select>
+                    <small style="color:var(--text-soft);font-size:12px;">Products with low stock or slow moving are highlighted</small>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Original Price</label>
+                        <input type="text" id="flashOriginalPrice" readonly style="background:var(--border);" />
+                    </div>
+                    <div class="form-group">
+                        <label>Current Stock</label>
+                        <input type="text" id="flashCurrentStock" readonly style="background:var(--border);" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Discount (%) <span class="required">*</span></label>
+                        <input type="number" id="flashDiscount" min="1" max="90" placeholder="e.g. 20" required />
+                        <small style="color:var(--text-soft);font-size:12px;">Max 90% discount</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Sale Price</label>
+                        <input type="text" id="flashSalePrice" readonly style="background:var(--border);" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Start Date & Time <span class="required">*</span></label>
+                        <input type="datetime-local" id="flashStartDate" required />
+                    </div>
+                    <div class="form-group">
+                        <label>End Date & Time <span class="required">*</span></label>
+                        <input type="datetime-local" id="flashEndDate" required />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Sale Reason</label>
+                    <select id="flashReason">
+                        <option value="clear_stock">Clear Slow Stock</option>
+                        <option value="promotion">Promotion / Marketing</option>
+                        <option value="seasonal">Seasonal Sale</option>
+                        <option value="new_product">New Product Launch</option>
+                        <option value="holiday">Holiday Special</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Notes (Optional)</label>
+                    <textarea id="flashNotes" rows="2" placeholder="Add any notes about this flash sale..."></textarea>
+                </div>
+                <div class="flash-preview" id="flashPreview" style="display:none;">
+                    <h4>📋 Sale Preview</h4>
+                    <div class="preview-row"><span>Product:</span><span id="previewProduct">—</span></div>
+                    <div class="preview-row"><span>Original:</span><span id="previewOriginal">—</span></div>
+                    <div class="preview-row"><span>Discount:</span><span id="previewDiscount">—</span></div>
+                    <div class="preview-row"><span>Sale Price:</span><span id="previewSalePrice">—</span></div>
+                    <div class="preview-row"><span>Duration:</span><span id="previewDuration">—</span></div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-ghost" onclick="closeModal('addFlashSaleModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">⚡ Launch Flash Sale</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== CLEAR SLOW STOCK MODAL ===== -->
+    <div class="modal" id="clearStockModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>🏷️ Clear Slow Stock</h3>
+                <button class="modal-close" onclick="closeModal('clearStockModal')">×</button>
+            </div>
+            <div class="clear-stock-content">
+                <p style="margin-bottom:16px;color:var(--text-soft);">
+                    Here are products with low sales or high stock that need to move faster.
+                    Select products to create flash sales automatically.
+                </p>
+                <div class="slow-products-list" id="slowProductsList">
+                    <!-- Rendered by JavaScript -->
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-ghost" onclick="closeModal('clearStockModal')">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="applyBulkDiscounts">📦 Apply Discounts</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== VIEW FLASH SALE MODAL ===== -->
+    <div class="modal" id="viewFlashSaleModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="viewFlashTitle">⚡ Flash Sale Details</h3>
+                <button class="modal-close" onclick="closeModal('viewFlashSaleModal')">×</button>
+            </div>
+            <div class="view-flash-content" id="viewFlashContent">
+                <!-- Rendered by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== TOAST ===== -->
+    <div class="toast" id="toast">
+        <span class="toast-icon" id="toastIcon">✅</span>
+        <span class="toast-message" id="toastMessage">Success!</span>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+    <script src="js/flashsales.js"></script>
+</body>
+</html>

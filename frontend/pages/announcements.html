@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes" />
+    <title>Announcements — ShopFlow</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="css/announcements.css" />
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- ===== SIDEBAR ===== -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="#" class="brand">
+                    <span class="dot"></span>
+                    <span>ShopFlow</span>
+                </a>
+                <button class="collapse-btn" id="collapseBtn">◀</button>
+                <button class="close-sidebar" id="closeSidebar">×</button>
+            </div>
+
+            <div class="shop-info" id="shopInfo">
+                <div class="shop-avatar" id="shopAvatar">🏪</div>
+                <div class="shop-details">
+                    <h3 id="shopNameDisplay">My Shop</h3>
+                    <p id="shopOwnerDisplay">Owner</p>
+                    <span class="shop-status">● Active</span>
+                </div>
+            </div>
+
+            <div class="trial-banner-sidebar" id="trialBanner">
+                <span class="trial-icon">⏳</span>
+                <div>
+                    <p class="trial-label">Free Trial</p>
+                    <p class="trial-days" id="trialDays">14 days left</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item"><span class="nav-icon">📊</span><span class="nav-label">Overview</span></a>
+                <a href="products.html" class="nav-item"><span class="nav-icon">📦</span><span class="nav-label">Products</span></a>
+                <a href="sales.html" class="nav-item"><span class="nav-icon">💰</span><span class="nav-label">Sales</span></a>
+                <a href="staff.html" class="nav-item"><span class="nav-icon">👥</span><span class="nav-label">Staff</span></a>
+                <a href="announcements.html" class="nav-item active" data-tooltip="Announcements"><span class="nav-icon">📢</span><span class="nav-label">Announcements</span></a>
+                <a href="flashsales.html" class="nav-item" data-tooltip="Flash Sales"><span class="nav-icon">⚡</span><span class="nav-label">Flash Sales</span></a>
+                <a href="subscription.html" class="nav-item" data-tooltip="Subscription"><span class="nav-icon">💳</span><span class="nav-label">Subscription</span></a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="logout-btn" id="logoutBtn">
+                    <span class="logout-icon">🚪</span>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- ===== FLOATING EXPAND BUTTON ===== -->
+        <button class="expand-btn" id="expandBtn" title="Expand sidebar">☰</button>
+
+        <!-- ===== MAIN CONTENT ===== -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button class="menu-toggle" id="menuToggle">☰</button>
+                    <button class="sidebar-toggle" id="sidebarToggle">
+                        <span>☰</span>
+                        <span class="toggle-label">Menu</span>
+                    </button>
+                    <h1 class="page-title" id="pageTitle">📢 Announcements</h1>
+                </div>
+                <div class="topbar-actions">
+                    <button class="theme-toggle" id="themeToggle">🌙</button>
+                    <div class="notification-bell">
+                        🔔
+                        <span class="notification-badge" id="alertBadge">0</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <div class="page-content">
+                <!-- ===== STATS ===== -->
+                <div class="announcement-stats">
+                    <div class="stat-card">
+                        <span class="stat-number" id="totalAnnouncements">0</span>
+                        <span class="stat-label">Total</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number" id="unreadCount">0</span>
+                        <span class="stat-label">Unread by Staff</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number" id="readCount">0</span>
+                        <span class="stat-label">Read by Staff</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number" id="responseCount">0</span>
+                        <span class="stat-label">Responses</span>
+                    </div>
+                </div>
+
+                <!-- ===== QUICK ACTIONS ===== -->
+                <div class="announcement-actions">
+                    <button class="btn btn-primary" id="newAnnouncementBtn" onclick="openModal('addAnnouncementModal')">
+                        ➕ New Announcement
+                    </button>
+                    <div class="action-filters">
+                        <select id="announcementFilter" class="filter-select">
+                            <option value="all">All</option>
+                            <option value="important">Important</option>
+                            <option value="normal">Normal</option>
+                            <option value="urgent">Urgent</option>
+                        </select>
+                        <input type="text" id="announcementSearch" placeholder="🔍 Search announcements..." class="search-input" />
+                    </div>
+                </div>
+
+                <!-- ===== ANNOUNCEMENTS LIST ===== -->
+                <div class="announcements-container">
+                    <div class="announcements-list" id="announcementsList">
+                        <!-- Rendered by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ===== ADD ANNOUNCEMENT MODAL ===== -->
+    <div class="modal" id="addAnnouncementModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>📢 New Announcement</h3>
+                <button class="modal-close" onclick="closeModal('addAnnouncementModal')">×</button>
+            </div>
+            <form id="addAnnouncementForm">
+                <div class="form-group">
+                    <label>Title <span class="required">*</span></label>
+                    <input type="text" id="announcementTitle" placeholder="e.g. New Store Hours" required />
+                </div>
+                <div class="form-group">
+                    <label>Message <span class="required">*</span></label>
+                    <textarea id="announcementMessage" rows="5" placeholder="Write your announcement message here..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Priority</label>
+                    <select id="announcementPriority">
+                        <option value="normal">📌 Normal</option>
+                        <option value="important">⭐ Important</option>
+                        <option value="urgent">🚨 Urgent</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Target Audience</label>
+                    <select id="announcementTarget">
+                        <option value="all">All Staff</option>
+                        <option value="active">Active Staff Only</option>
+                        <option value="specific">Specific Staff</option>
+                    </select>
+                </div>
+                <div class="form-group" id="specificStaffGroup" style="display:none;">
+                    <label>Select Staff</label>
+                    <select id="announcementStaff" multiple style="height:80px;">
+                        <!-- Populated by JavaScript -->
+                    </select>
+                    <small style="color:var(--text-soft);font-size:12px;">Hold Ctrl/Cmd to select multiple</small>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="announcementRequireAck" />
+                        Require staff to acknowledge (read receipt)
+                    </label>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-ghost" onclick="closeModal('addAnnouncementModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">📢 Post Announcement</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== VIEW ANNOUNCEMENT MODAL ===== -->
+    <div class="modal" id="viewAnnouncementModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="viewAnnouncementTitle">Announcement</h3>
+                <button class="modal-close" onclick="closeModal('viewAnnouncementModal')">×</button>
+            </div>
+            <div class="view-announcement-content" id="viewAnnouncementContent">
+                <!-- Rendered by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== ACKNOWLEDGE RESPONSE MODAL ===== -->
+    <div class="modal" id="responseModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>💬 Staff Responses</h3>
+                <button class="modal-close" onclick="closeModal('responseModal')">×</button>
+            </div>
+            <div class="response-content" id="responseContent">
+                <!-- Rendered by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== TOAST ===== -->
+    <div class="toast" id="toast">
+        <span class="toast-icon" id="toastIcon">✅</span>
+        <span class="toast-message" id="toastMessage">Success!</span>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+    <script src="js/announcements.js"></script>
+</body>
+</html>

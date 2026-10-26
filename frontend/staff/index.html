@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+    <title>Staff Dashboard — ShopFlow</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+    
+    <style>
+        /* ============================================
+           STAFF DASHBOARD - OVERVIEW ONLY
+           ============================================ */
+
+        :root {
+            --blue: #1E3A8A;
+            --blue-light: #2E4FB0;
+            --green: #10B981;
+            --bg: #F3F4F6;
+            --bg-card: #FFFFFF;
+            --text: #1F2937;
+            --text-soft: #5B6472;
+            --red: #EF4444;
+            --amber: #F59E0B;
+            --border: rgba(31,41,55,0.09);
+            --radius: 12px;
+            --radius-lg: 16px;
+            --shadow: 0 2px 10px rgba(17,24,39,0.06);
+            --shadow-lg: 0 20px 50px rgba(17,24,39,0.10);
+            --transition: 0.3s ease;
+            --sidebar-width: 260px;
+        }
+
+        [data-theme="dark"] {
+            --bg: #111827;
+            --bg-card: #182234;
+            --text: #F9FAFB;
+            --text-soft: #9AA5B4;
+            --border: rgba(249,250,251,0.09);
+            --shadow: 0 2px 10px rgba(0,0,0,0.3);
+            --shadow-lg: 0 20px 50px rgba(0,0,0,0.4);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            transition: background 0.3s, color 0.3s;
+            overflow-x: hidden;
+        }
+
+        .dashboard-container { display: flex; min-height: 100vh; }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--bg-card);
+            border-right: 1px solid var(--border);
+            padding: 20px 16px;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            z-index: 100;
+            transition: transform 0.3s, background 0.3s;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text);
+            text-decoration: none;
+        }
+        .brand .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); display: inline-block; }
+        .close-sidebar { display: none; background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-soft); }
+
+        .staff-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: var(--bg);
+            border-radius: var(--radius);
+            margin-bottom: 16px;
+        }
+        .staff-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--blue);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        .staff-details h3 { font-size: 15px; font-weight: 700; margin-bottom: 2px; }
+        .staff-details p { font-size: 12px; color: var(--text-soft); }
+        .staff-status { font-size: 11px; color: var(--green); font-weight: 600; }
+        .staff-status::before {
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--green);
+            margin-right: 4px;
+        }
+
+        .sidebar-nav { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            border-radius: var(--radius);
+            color: var(--text-soft);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .nav-item:hover { background: var(--bg); color: var(--text); }
+        .nav-item.active { background: var(--blue); color: white; box-shadow: 0 4px 12px rgba(30,58,138,0.25); }
+        .nav-item .nav-icon { font-size: 18px; flex-shrink: 0; }
+        .nav-item .nav-badge {
+            margin-left: auto;
+            background: var(--red);
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 1px 8px;
+            border-radius: 20px;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        .sidebar-footer { padding-top: 16px; border-top: 1px solid var(--border); margin-top: auto; }
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: var(--radius);
+            color: var(--red);
+            font-weight: 600;
+            font-size: 14px;
+            transition: background 0.3s;
+            cursor: pointer;
+            background: none;
+            border: none;
+            width: 100%;
+        }
+        .logout-btn:hover { background: rgba(239,68,68,0.1); }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== TOPBAR ===== */
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 28px;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            transition: background 0.3s;
+        }
+        .topbar-left { display: flex; align-items: center; gap: 12px; }
+        .menu-toggle { display: none; background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text); padding: 4px 8px; }
+        .page-title { font-family: 'Poppins', sans-serif; font-size: 20px; font-weight: 700; }
+        .topbar-actions { display: flex; align-items: center; gap: 12px; }
+        .theme-toggle {
+            width: 38px; height: 38px; border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: background 0.2s;
+        }
+        .theme-toggle:hover { background: var(--border); }
+        .notification-bell { position: relative; font-size: 22px; cursor: pointer; padding: 4px; }
+        .notification-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: var(--red);
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 50%;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        /* ===== PAGE CONTENT ===== */
+        .page-content { padding: 24px 28px; flex: 1; }
+
+        /* ===== STATS ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        @media (max-width: 900px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 500px) { .stats-grid { grid-template-columns: 1fr; } }
+
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 18px 20px;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius);
+            background: color-mix(in srgb, var(--blue) 10%, transparent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+        .stat-info { flex: 1; }
+        .stat-label { font-size: 13px; color: var(--text-soft); display: block; }
+        .stat-value { font-size: 22px; font-weight: 700; display: block; margin: 2px 0; }
+        .stat-change { font-size: 12px; font-weight: 500; color: var(--text-soft); }
+        .stat-change.positive { color: var(--green); }
+        .stat-change.negative { color: var(--red); }
+
+        /* ===== QUICK ACTIONS ===== */
+        .quick-actions { margin-bottom: 28px; }
+        .quick-actions h3 { font-size: 16px; font-weight: 700; margin-bottom: 12px; }
+        .quick-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+        @media (max-width: 700px) { .quick-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 400px) { .quick-grid { grid-template-columns: 1fr; } }
+
+        .quick-btn {
+            padding: 12px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 14px;
+            color: var(--text);
+            transition: all 0.3s;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+        }
+        .quick-btn:hover { background: var(--blue); color: white; border-color: var(--blue); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(30,58,138,0.2); }
+
+        /* ===== RECENT ACTIVITY ===== */
+        .recent-activity h3 { font-size: 16px; font-weight: 700; margin-bottom: 12px; }
+        .activity-list {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border);
+        }
+        .activity-item:last-child { border-bottom: none; }
+        .activity-icon { font-size: 20px; }
+        .activity-text { font-size: 14px; font-weight: 500; }
+        .activity-time { font-size: 12px; color: var(--text-soft); }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 14px 20px;
+            box-shadow: var(--shadow-lg);
+            z-index: 300;
+            display: none;
+            animation: slideUp 0.3s ease;
+            max-width: 400px;
+        }
+        .toast.show { display: flex; align-items: center; gap: 10px; }
+        .toast.success { border-left: 4px solid var(--green); }
+        .toast.error { border-left: 4px solid var(--red); }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); width: 280px; }
+            .sidebar.open { transform: translateX(0); }
+            .close-sidebar { display: block; }
+            .main-content { margin-left: 0; }
+            .menu-toggle { display: block; }
+            .topbar { padding: 12px 16px; }
+            .page-content { padding: 16px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .quick-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 480px) {
+            .stats-grid { grid-template-columns: 1fr; }
+            .quick-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="#" class="brand"><span class="dot"></span>ShopFlow</a>
+                <button class="close-sidebar" id="closeSidebar">×</button>
+            </div>
+            <div class="staff-info" id="staffInfo">
+                <div class="staff-avatar" id="staffAvatar">👤</div>
+                <div class="staff-details">
+                    <h3 id="staffNameDisplay">Staff</h3>
+                    <p id="staffShopDisplay">Shop Name</p>
+                    <span class="staff-status">● Active</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="index.html" class="nav-item active"><span class="nav-icon">📊</span><span class="nav-label">Overview</span></a>
+                <a href="pages/marketplace.html" class="nav-item"><span class="nav-icon">🏪</span><span class="nav-label">Marketplace</span><span class="nav-badge" id="productBadge">0</span></a>
+                <a href="pages/addstock.html" class="nav-item"><span class="nav-icon">📦</span><span class="nav-label">Restock</span></a>
+                <a href="pages/orders.html" class="nav-item"><span class="nav-icon">📋</span><span class="nav-label">Orders</span></a>
+                <a href="pages/announcements.html" class="nav-item"><span class="nav-icon">📢</span><span class="nav-label">Announcements</span><span class="nav-badge" id="announceBadge">0</span></a>
+                <a href="pages/mysales.html" class="nav-item"><span class="nav-icon">💰</span><span class="nav-label">My Sales</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="logout-btn" id="logoutBtn"><span class="logout-icon">🚪</span><span>Logout</span></button>
+            </div>
+        </aside>
+
+        <!-- MAIN -->
+        <main class="main-content">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button class="menu-toggle" id="menuToggle">☰</button>
+                    <h1 class="page-title">📊 Overview</h1>
+                </div>
+                <div class="topbar-actions">
+                    <button class="theme-toggle" id="themeToggle">🌙</button>
+                    <div class="notification-bell">🔔<span class="notification-badge" id="alertBadge">0</span></div>
+                </div>
+            </header>
+
+            <div class="page-content">
+                <!-- STATS -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-info">
+                            <span class="stat-label">Today's Sales</span>
+                            <span class="stat-value" id="todaySales">KSh 0</span>
+                            <span class="stat-change positive">↑ 0%</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📦</div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Products</span>
+                            <span class="stat-value" id="totalProducts">0</span>
+                            <span class="stat-change">+0 this month</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📊</div>
+                        <div class="stat-info">
+                            <span class="stat-label">Low Stock</span>
+                            <span class="stat-value" id="lowStock">0</span>
+                            <span class="stat-change negative">⚠️ Needs attention</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">❌</div>
+                        <div class="stat-info">
+                            <span class="stat-label">Out of Stock</span>
+                            <span class="stat-value" id="outStock">0</span>
+                            <span class="stat-change negative">⚠️ Needs restock</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUICK ACTIONS -->
+                <div class="quick-actions">
+                    <h3>Quick Actions</h3>
+                    <div class="quick-grid">
+                        <a href="pages/addstock.html" class="quick-btn">📦 Restock</a>
+                        <a href="pages/marketplace.html" class="quick-btn">🏪 Marketplace</a>
+                        <a href="pages/orders.html" class="quick-btn">📋 New Order</a>
+                        <a href="pages/mysales.html" class="quick-btn">💰 My Sales</a>
+                    </div>
+                </div>
+
+                <!-- RECENT ACTIVITY -->
+                <div class="recent-activity">
+                    <h3>Recent Activity</h3>
+                    <div class="activity-list" id="activityList">
+                        <div class="activity-item">
+                            <span class="activity-icon">📋</span>
+                            <div>
+                                <p class="activity-text">No recent activity</p>
+                                <span class="activity-time">Start selling to see activity</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast">
+        <span class="toast-icon" id="toastIcon">✅</span>
+        <span class="toast-message" id="toastMessage">Success!</span>
+    </div>
+
+    <script>
+        // ============================================
+        // STAFF DASHBOARD - OVERVIEW ONLY
+        // ============================================
+
+        // CHECK LOGIN
+        if (!localStorage.getItem('shopflow_logged_in')) {
+            window.location.href = '../pages/login.html';
+        }
+
+        // GET DATA
+        function getProducts() {
+            return JSON.parse(localStorage.getItem('shopflow_products') || '[]');
+        }
+
+        function getSales() {
+            return JSON.parse(localStorage.getItem('shopflow_sales') || '[]');
+        }
+
+        function getAnnouncements() {
+            return JSON.parse(localStorage.getItem('shopflow_announcements') || '[]');
+        }
+
+        // TOAST
+        function showToast(message, type) {
+            type = type || 'success';
+            var toast = document.getElementById('toast');
+            var icon = document.getElementById('toastIcon');
+            var msg = document.getElementById('toastMessage');
+            toast.className = 'toast ' + type;
+            icon.textContent = type === 'success' ? '✅' : '❌';
+            msg.textContent = message;
+            toast.classList.add('show');
+            clearTimeout(window.toastTimeout);
+            window.toastTimeout = setTimeout(function() {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        window.showToast = showToast;
+
+        // STAFF DATA
+        function loadStaffData() {
+            var user = JSON.parse(localStorage.getItem('shopflow_user') || '{}');
+            var shop = JSON.parse(localStorage.getItem('shopflow_shop') || '{}');
+            document.getElementById('staffNameDisplay').textContent = user.name || 'Staff';
+            document.getElementById('staffShopDisplay').textContent = shop.shopName || 'Shop';
+            document.getElementById('staffAvatar').textContent = (user.name || 'S').charAt(0).toUpperCase();
+        }
+
+        // THEME
+        var themeBtn = document.getElementById('themeToggle');
+        var body = document.body;
+        if (localStorage.getItem('theme') === 'dark') {
+            body.setAttribute('data-theme', 'dark');
+            themeBtn.textContent = '☀️';
+        }
+        themeBtn.addEventListener('click', function() {
+            var dark = body.getAttribute('data-theme') === 'dark';
+            body.setAttribute('data-theme', dark ? 'light' : 'dark');
+            themeBtn.textContent = dark ? '🌙' : '☀️';
+            localStorage.setItem('theme', dark ? 'light' : 'dark');
+        });
+
+        // SIDEBAR
+        var sidebar = document.getElementById('sidebar');
+        var menuToggle = document.getElementById('menuToggle');
+        var closeSidebarBtn = document.getElementById('closeSidebar');
+
+        menuToggle.addEventListener('click', function() {
+            sidebar.classList.toggle('open');
+        });
+        closeSidebarBtn.addEventListener('click', function() {
+            sidebar.classList.remove('open');
+        });
+
+        // UPDATE STATS
+        function updateStats() {
+            var products = getProducts();
+            var sales = getSales();
+            var today = new Date().toDateString();
+            var todaySales = sales.filter(function(s) {
+                return new Date(s.date).toDateString() === today;
+            });
+            var todayTotal = 0;
+            for (var i = 0; i < todaySales.length; i++) {
+                todayTotal += todaySales[i].totalAmount;
+            }
+            var low = 0;
+            var out = 0;
+            for (var j = 0; j < products.length; j++) {
+                if (products[j].stock > 0 && products[j].stock < 5) low++;
+                if (products[j].stock === 0) out++;
+            }
+
+            document.getElementById('todaySales').textContent = 'KSh ' + todayTotal.toLocaleString();
+            document.getElementById('totalProducts').textContent = products.length;
+            document.getElementById('lowStock').textContent = low;
+            document.getElementById('outStock').textContent = out;
+            document.getElementById('alertBadge').textContent = low + out;
+            document.getElementById('announceBadge').textContent = getAnnouncements().length;
+            document.getElementById('productBadge').textContent = products.length;
+        }
+
+        // RECENT ACTIVITY
+        function updateRecentActivity() {
+            var sales = getSales();
+            var products = getProducts();
+            var announcements = getAnnouncements();
+            var list = document.getElementById('activityList');
+            var activities = [];
+
+            for (var i = sales.length - 1; i >= 0 && i >= sales.length - 3; i--) {
+                var s = sales[i];
+                activities.push('💰 Sale: ' + (s.items && s.items[0] ? s.items[0].name : 'Product') + ' - KSh ' + s.totalAmount.toLocaleString());
+            }
+
+            for (var j = products.length - 1; j >= 0 && j >= products.length - 3; j--) {
+                var p = products[j];
+                activities.push('📦 New product: ' + p.name + ' added');
+            }
+
+            for (var k = announcements.length - 1; k >= 0 && k >= announcements.length - 2; k--) {
+                var a = announcements[k];
+                activities.push('📢 Announcement: ' + a.title);
+            }
+
+            if (activities.length === 0) {
+                list.innerHTML = '<div class="activity-item"><span class="activity-icon">📋</span><div><p class="activity-text">No recent activity</p><span class="activity-time">Start selling to see activity</span></div></div>';
+                return;
+            }
+
+            var html = '';
+            for (var m = 0; m < Math.min(activities.length, 5); m++) {
+                html += '<div class="activity-item"><span class="activity-icon">📋</span><div><p class="activity-text">' + activities[m] + '</p><span class="activity-time">Just now</span></div></div>';
+            }
+            list.innerHTML = html;
+        }
+
+        // LOGOUT
+        document.getElementById('logoutBtn')?.addEventListener('click', function() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('shopflow_logged_in');
+                window.location.href = '../pages/login.html';
+            }
+        });
+
+        // INIT
+        loadStaffData();
+        updateStats();
+        updateRecentActivity();
+
+        setInterval(function() {
+            updateStats();
+            updateRecentActivity();
+        }, 60000);
+
+        console.log('🚀 Staff Dashboard loaded successfully!');
+        console.log('💡 This is the Overview page. Other pages: marketplace.html, addstock.html, orders.html, announcements.html, mysales.html');
+    </script>
+</body>
+</html>

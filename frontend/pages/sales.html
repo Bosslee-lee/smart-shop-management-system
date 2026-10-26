@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes" />
+    <title>Sales Analytics — ShopFlow</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="css/sales.css" />
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- ===== SIDEBAR ===== -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="#" class="brand">
+                    <span class="dot"></span>
+                    <span>ShopFlow</span>
+                </a>
+                <button class="collapse-btn" id="collapseBtn">◀</button>
+                <button class="close-sidebar" id="closeSidebar">×</button>
+            </div>
+
+            <div class="shop-info" id="shopInfo">
+                <div class="shop-avatar" id="shopAvatar">🏪</div>
+                <div class="shop-details">
+                    <h3 id="shopNameDisplay">My Shop</h3>
+                    <p id="shopOwnerDisplay">Owner</p>
+                    <span class="shop-status">● Active</span>
+                </div>
+            </div>
+
+            <div class="trial-banner-sidebar" id="trialBanner">
+                <span class="trial-icon">⏳</span>
+                <div>
+                    <p class="trial-label">Free Trial</p>
+                    <p class="trial-days" id="trialDays">14 days left</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item"><span class="nav-icon">📊</span><span class="nav-label">Overview</span></a>
+                <a href="products.html" class="nav-item"><span class="nav-icon">📦</span><span class="nav-label">Products</span></a>
+                <a href="sales.html" class="nav-item active" data-tooltip="Sales"><span class="nav-icon">💰</span><span class="nav-label">Sales Analytics</span></a>
+                <a href="staff.html" class="nav-item" data-tooltip="Staff"><span class="nav-icon">👥</span><span class="nav-label">Staff</span></a>
+                <a href="announcements.html" class="nav-item" data-tooltip="Announcements"><span class="nav-icon">📢</span><span class="nav-label">Announcements</span></a>
+                <a href="flashsales.html" class="nav-item" data-tooltip="Flash Sales"><span class="nav-icon">⚡</span><span class="nav-label">Flash Sales</span></a>
+                <a href="subscription.html" class="nav-item" data-tooltip="Subscription"><span class="nav-icon">💳</span><span class="nav-label">Subscription</span></a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="logout-btn" id="logoutBtn">
+                    <span class="logout-icon">🚪</span>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- ===== FLOATING EXPAND BUTTON ===== -->
+        <button class="expand-btn" id="expandBtn" title="Expand sidebar">☰</button>
+
+        <!-- ===== MAIN CONTENT ===== -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button class="menu-toggle" id="menuToggle">☰</button>
+                    <button class="sidebar-toggle" id="sidebarToggle">
+                        <span>☰</span>
+                        <span class="toggle-label">Menu</span>
+                    </button>
+                    <h1 class="page-title" id="pageTitle">💰 Sales Analytics</h1>
+                </div>
+                <div class="topbar-actions">
+                    <button class="theme-toggle" id="themeToggle">🌙</button>
+                    <div class="notification-bell">
+                        🔔
+                        <span class="notification-badge" id="alertBadge">0</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <div class="page-content">
+                <!-- ===== ALERT/WARNING BANNER ===== -->
+                <div class="alert-banner" id="alertBanner">
+                    <div class="alert-content">
+                        <span class="alert-icon">⚠️</span>
+                        <span class="alert-message" id="alertMessage">Low stock alerts</span>
+                    </div>
+                    <button class="alert-close" onclick="closeAlert()">×</button>
+                </div>
+
+                <!-- ===== PERIOD SELECTOR ===== -->
+                <div class="period-selector">
+                    <button class="period-btn active" data-period="today" onclick="setPeriod('today')">Today</button>
+                    <button class="period-btn" data-period="week" onclick="setPeriod('week')">This Week</button>
+                    <button class="period-btn" data-period="month" onclick="setPeriod('month')">This Month</button>
+                    <button class="period-btn" data-period="year" onclick="setPeriod('year')">This Year</button>
+                    <button class="period-btn" data-period="all" onclick="setPeriod('all')">All Time</button>
+                    <div class="period-custom">
+                        <input type="date" id="startDate" />
+                        <span>to</span>
+                        <input type="date" id="endDate" />
+                        <button class="btn btn-primary btn-sm" onclick="setCustomPeriod()">Apply</button>
+                    </div>
+                </div>
+
+                <!-- ===== KEY METRICS ===== -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon">💰</div>
+                        <div class="metric-info">
+                            <span class="metric-label">Total Revenue</span>
+                            <span class="metric-value" id="totalRevenue">KSh 0</span>
+                            <span class="metric-change" id="revenueChange">+0%</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">📊</div>
+                        <div class="metric-info">
+                            <span class="metric-label">Total Orders</span>
+                            <span class="metric-value" id="totalOrders">0</span>
+                            <span class="metric-change" id="ordersChange">+0%</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">📈</div>
+                        <div class="metric-info">
+                            <span class="metric-label">Average Order Value</span>
+                            <span class="metric-value" id="avgOrder">KSh 0</span>
+                            <span class="metric-change" id="avgChange">+0%</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">📱</div>
+                        <div class="metric-info">
+                            <span class="metric-label">M-Pesa Sales</span>
+                            <span class="metric-value" id="mpesaSales">KSh 0</span>
+                            <span class="metric-change" id="mpesaChange">+0%</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">💵</div>
+                        <div class="metric-info">
+                            <span class="metric-label">Cash Sales</span>
+                            <span class="metric-value" id="cashSales">KSh 0</span>
+                            <span class="metric-change" id="cashChange">+0%</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">📊</div>
+                        <div class="metric-info">
+                            <span class="metric-label">Gross Profit</span>
+                            <span class="metric-value" id="grossProfit">KSh 0</span>
+                            <span class="metric-change" id="profitChange">+0%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== PAYMENT BREAKDOWN ===== -->
+                <div class="analytics-row">
+                    <div class="analytics-card payment-breakdown">
+                        <h3>💳 Payment Methods</h3>
+                        <div class="payment-chart" id="paymentChart">
+                            <div class="chart-bar">
+                                <div class="bar-label">M-Pesa</div>
+                                <div class="bar-track">
+                                    <div class="bar-fill mpesa" id="mpesaBar" style="width:0%"></div>
+                                </div>
+                                <div class="bar-value" id="mpesaPercent">0%</div>
+                            </div>
+                            <div class="chart-bar">
+                                <div class="bar-label">Cash</div>
+                                <div class="bar-track">
+                                    <div class="bar-fill cash" id="cashBar" style="width:0%"></div>
+                                </div>
+                                <div class="bar-value" id="cashPercent">0%</div>
+                            </div>
+                            <div class="chart-bar">
+                                <div class="bar-label">Card</div>
+                                <div class="bar-track">
+                                    <div class="bar-fill card" id="cardBar" style="width:0%"></div>
+                                </div>
+                                <div class="bar-value" id="cardPercent">0%</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="analytics-card staff-performance">
+                        <h3>👥 Staff Performance</h3>
+                        <div class="staff-list" id="staffPerformance">
+                            <div class="staff-item">
+                                <span class="staff-name">No data yet</span>
+                                <span class="staff-sales">KSh 0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== PRODUCT PERFORMANCE ===== -->
+                <div class="analytics-row">
+                    <div class="analytics-card fast-moving">
+                        <h3>🚀 Fast Moving Products</h3>
+                        <div class="product-list" id="fastMovingProducts">
+                            <div class="product-item">
+                                <span class="product-name">No data yet</span>
+                                <span class="product-sales">0 sold</span>
+                            </div>
+                        </div>
+                        <p class="insight" id="fastInsight">💡 These products sell well. Consider ordering more.</p>
+                    </div>
+
+                    <div class="analytics-card slow-moving">
+                        <h3>🐢 Slow Moving Products</h3>
+                        <div class="product-list" id="slowMovingProducts">
+                            <div class="product-item">
+                                <span class="product-name">No data yet</span>
+                                <span class="product-sales">0 sold</span>
+                            </div>
+                        </div>
+                        <p class="insight warning" id="slowInsight">💡 Consider reducing price or removing these products.</p>
+                    </div>
+                </div>
+
+                <!-- ===== PROFITABILITY ANALYSIS ===== -->
+                <div class="analytics-card profitability">
+                    <h3>📊 Profitability Analysis</h3>
+                    <div class="profit-grid">
+                        <div class="profit-item">
+                            <span class="profit-label">Total Revenue</span>
+                            <span class="profit-value" id="profitRevenue">KSh 0</span>
+                        </div>
+                        <div class="profit-item">
+                            <span class="profit-label">Cost of Goods (Estimated)</span>
+                            <span class="profit-value" id="profitCost">KSh 0</span>
+                        </div>
+                        <div class="profit-item">
+                            <span class="profit-label">Gross Profit</span>
+                            <span class="profit-value" id="profitGross">KSh 0</span>
+                        </div>
+                        <div class="profit-item">
+                            <span class="profit-label">Profit Margin</span>
+                            <span class="profit-value" id="profitMargin">0%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== WARNINGS & ALERTS ===== -->
+                <div class="analytics-card warnings">
+                    <h3>⚠️ Alerts & Warnings</h3>
+                    <div class="warnings-list" id="warningsList">
+                        <div class="warning-item">
+                            <span class="warning-icon">✅</span>
+                            <span class="warning-text">No warnings. Your shop is healthy!</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== RECENT SALES TABLE ===== -->
+                <div class="analytics-card recent-sales">
+                    <div class="card-header">
+                        <h3>📋 Recent Sales</h3>
+                        <div class="card-actions">
+                            <button class="btn btn-ghost btn-sm" onclick="exportSales()">📥 Export</button>
+                            <button class="btn btn-primary btn-sm" onclick="refreshData()">🔄 Refresh</button>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Receipt</th>
+                                    <th>Date</th>
+                                    <th>Customer</th>
+                                    <th>Items</th>
+                                    <th>Total</th>
+                                    <th>Method</th>
+                                    <th>Staff</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="salesTableBody">
+                                <tr>
+                                    <td colspan="8" style="text-align:center;padding:30px;color:var(--text-soft);">
+                                        No sales recorded yet.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ===== RECEIPT MODAL ===== -->
+    <div class="modal" id="receiptModal">
+        <div class="modal-content receipt-modal">
+            <div class="modal-header">
+                <h3>🧾 Receipt</h3>
+                <button class="modal-close" onclick="closeModal('receiptModal')">×</button>
+            </div>
+            <div class="receipt-content" id="receiptContent"></div>
+            <div class="receipt-actions">
+                <button class="btn btn-primary" onclick="printReceipt()">🖨️ Print</button>
+                <button class="btn btn-ghost" onclick="closeModal('receiptModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== TOAST ===== -->
+    <div class="toast" id="toast">
+        <span class="toast-icon" id="toastIcon">✅</span>
+        <span class="toast-message" id="toastMessage">Success!</span>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+    <script src="js/sales.js"></script>
+</body>
+</html>

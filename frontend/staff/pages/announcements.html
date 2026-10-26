@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+    <title>Announcements — ShopFlow</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+    
+    <link rel="stylesheet" href="css/announcements.css" />
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="#" class="brand"><span class="dot"></span>ShopFlow</a>
+                <button class="close-sidebar" id="closeSidebar">×</button>
+            </div>
+            <div class="staff-info" id="staffInfo">
+                <div class="staff-avatar" id="staffAvatar">👤</div>
+                <div class="staff-details">
+                    <h3 id="staffNameDisplay">Staff</h3>
+                    <p id="staffShopDisplay">Shop Name</p>
+                    <span class="staff-status">● Active</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="../index.html" class="nav-item"><span class="nav-icon">📊</span><span class="nav-label">Overview</span></a>
+                <a href="marketplace.html" class="nav-item"><span class="nav-icon">🏪</span><span class="nav-label">Marketplace</span><span class="nav-badge" id="productBadge">0</span></a>
+                <a href="addstock.html" class="nav-item"><span class="nav-icon">📦</span><span class="nav-label">Restock</span></a>
+                <a href="orders.html" class="nav-item"><span class="nav-icon">📋</span><span class="nav-label">Orders</span></a>
+                <a href="announcements.html" class="nav-item active"><span class="nav-icon">📢</span><span class="nav-label">Announcements</span><span class="nav-badge" id="announceBadge">0</span></a>
+                <a href="mysales.html" class="nav-item"><span class="nav-icon">💰</span><span class="nav-label">My Sales</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="logout-btn" id="logoutBtn"><span class="logout-icon">🚪</span><span>Logout</span></button>
+            </div>
+        </aside>
+
+        <!-- MAIN -->
+        <main class="main-content">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button class="menu-toggle" id="menuToggle">☰</button>
+                    <h1 class="page-title">📢 Announcements</h1>
+                </div>
+                <div class="topbar-actions">
+                    <button class="theme-toggle" id="themeToggle">🌙</button>
+                    <div class="notification-bell">
+                        🔔
+                        <span class="notification-badge" id="alertBadge">0</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="page-content">
+                <!-- Stats -->
+                <div class="announcement-stats">
+                    <div class="stat-card">
+                        <span class="stat-number" id="totalAnnouncements">0</span>
+                        <span class="stat-label">Total Announcements</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number" id="unreadCount">0</span>
+                        <span class="stat-label">📨 Unread</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number" id="readCount">0</span>
+                        <span class="stat-label">✅ Read</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number" id="urgentCount">0</span>
+                        <span class="stat-label">🚨 Urgent</span>
+                    </div>
+                </div>
+
+                <!-- Filter -->
+                <div class="announcement-filters">
+                    <select id="priorityFilter" class="filter-select">
+                        <option value="all">All Priorities</option>
+                        <option value="urgent">🚨 Urgent</option>
+                        <option value="important">⭐ Important</option>
+                        <option value="normal">📌 Normal</option>
+                    </select>
+                    <input type="text" id="searchAnnouncements" placeholder="🔍 Search announcements..." class="search-input" />
+                    <span class="filter-hint">💡 Click on an announcement to mark it as read</span>
+                </div>
+
+                <!-- Announcements List -->
+                <div class="announcements-list" id="announcementsList">
+                    <!-- Rendered by JavaScript -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Announcement Detail Modal -->
+    <div class="modal" id="announcementModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Announcement</h3>
+                <button class="modal-close" onclick="closeModal('announcementModal')">×</button>
+            </div>
+            <div class="announcement-detail" id="announcementDetail">
+                <!-- Rendered by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast">
+        <span class="toast-icon" id="toastIcon">✅</span>
+        <span class="toast-message" id="toastMessage">Success!</span>
+    </div>
+
+    <script src="js/announcements.js"></script>
+</body>
+</html>
